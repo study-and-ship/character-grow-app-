@@ -1,4 +1,4 @@
-import { supabaseServer } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 /**
  * GET /api/health
@@ -8,7 +8,8 @@ import { supabaseServer } from "@/lib/supabase/server";
  */
 export async function GET() {
   try {
-    const { error } = await supabaseServer.auth.getSession();
+    const supabase = await createClient();
+    const { error } = await supabase.auth.getSession();
 
     if (error) {
       return Response.json(

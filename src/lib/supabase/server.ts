@@ -1,22 +1,40 @@
-import { createClient } from "@supabase/supabase-js";
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 import type { Database } from "./database.types";
 import { env } from "@/lib/env";
 
 /**
- * 서버(Route Handler)용 Supabase 클라이언트.
- * publishable key 를 사용하므로 RLS 정책의 통제를 받는다(읽기 위주 설계).
- * 세션을 브라우저처럼 유지할 필요가 없으므로 persistSession 을 끈다.
+ * 서버용 Supabase 클라이언트 (Server Component / Server Action / Route Handler).
  *
- * 관리자 권한(RLS 우회)이 필요해지면 secret key(sb_secret_...)용 클라이언트를
- * 여기에 별도로 추가한다. secret key 는 절대 NEXT_PUBLIC_ 접두사로 두지 않는다.
+ * 요청 쿠키에서 Supabase Auth 세션을 읽어 "현재 로그인 사용자" 컨텍스트로
+ * 동작한다. RLS 가 auth.uid() 로 본인 데이터만 통과시키므로, 이 클라이언트의
+ * 쿼리는 자동으로 로그인 사용자 권한으로 실행된다.
+ *
+ * 쿠키는 요청마다 다르므로 매 요청 새로 생성한다(함수형).
+ * Next.js 16: cookies() 는 async.
  */
-export const supabaseServer = createClient<Database>(
-  env.NEXT_PUBLIC_SUPABASE_URL,
-  env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
-  {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
-    },
-  }
-);
+export async function createClient() {
+  const cookieStore = await cookies();
+
+  return createServerClient<Database>(
+    env.NEXT_PUBLIC_SUPABASE_URL,
+    env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          } catch {
+            // 쓰기 불가 컨텍스트(예: Server Component)에서는 무시.
+            // 세션 갱신은 미들웨어/응답 경로에서 처리된다.
+          }
+        },
+      },
+    }
+  );
+}
