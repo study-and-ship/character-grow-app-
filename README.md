@@ -22,7 +22,7 @@ src/
   lib/supabase/
     client.ts          브라우저용 Supabase 클라이언트 (publishable key)
 .env.example           환경변수 템플릿
-.env.local             실제 환경변수 (git 제외)
+.env                   실제 환경변수 (git 제외)
 capacitor.config.ts    안드로이드 래핑 설정 (예정)
 ```
 
@@ -30,7 +30,7 @@ capacitor.config.ts    안드로이드 래핑 설정 (예정)
 
 ```bash
 npm install
-cp .env.example .env.local   # Supabase URL / publishable key 채우기
+cp .env.example .env         # Supabase URL / publishable key 채우기
 npm run dev                  # http://localhost:3000
 ```
 
