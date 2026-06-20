@@ -36,9 +36,9 @@ npm run dev                  # http://localhost:3000
 
 ## 환경변수
 
-| 키 | 설명 |
-|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase 프로젝트 URL |
+| 키                                     | 설명                                                    |
+| -------------------------------------- | ------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`             | Supabase 프로젝트 URL                                   |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | 공개 publishable key (`sb_publishable_...`, RLS로 보호) |
 
 ## 배포 (Vercel)
