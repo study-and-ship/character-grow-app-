@@ -1,0 +1,9 @@
+.next
+node_modules
+out
+build
+package-lock.json
+# 자동 생성 파일 (gen:types 결과물)
+src/lib/supabase/database.types.ts
+# 도구가 생성/관리하는 파일 (create-next-app)
+AGENTS.md
