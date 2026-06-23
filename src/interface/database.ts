@@ -8,9 +8,9 @@ import type {
 /**
  * DB 테이블/Enum 의 단축 타입 모음.
  * database.types.ts 는 gen:types 로 자동 생성되므로 직접 수정하지 않는다.
- * 컴포넌트/라우트에서는 이 파일의 별칭을 import 해서 쓴다.
+ * 컴포넌트/훅에서는 이 파일의 별칭을 import 해서 쓴다.
  *
- *   import type { Character } from "@/types/db";
+ *   import type { Character } from "@/interface/database";
  */
 
 // --- Row 타입 (조회 결과) ---
