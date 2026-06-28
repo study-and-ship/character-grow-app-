@@ -1,0 +1,89 @@
+@use "mixins" as m;
+
+.topbar { @include m.topbar; }
+.heading { font-size: 24px; }
+.pill { @include m.pill; }
+.coin { @include m.coin; }
+.label { @include m.label; }
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin: 14px 0;
+}
+.tab {
+  flex: 1;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 8px;
+  border-radius: 12px;
+  border: 2px solid var(--line);
+  background: #fff;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.on {
+  background: var(--ink) !important;
+  color: #fff !important;
+  border-color: var(--ink) !important;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.item {
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  padding: 10px;
+  text-align: center;
+
+  &.owned { border-color: var(--mint-deep); }
+  &.equipped {
+    border-color: var(--sunny);
+    background: #fffaf0;
+  }
+}
+.preview { @include m.center; }
+.nm {
+  font-size: 17px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.price {
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.ownedTag { color: var(--mint-deep); }
+
+.minibtn {
+  @include m.minibtn;
+  &.sec { @include m.minibtn-sec; }
+}
+.sec {}
+
+.note {
+  @include m.card;
+  margin-top: 14px;
+}
+.eggNote {
+  margin-top: 0;
+  margin-bottom: 12px;
+  background: #fffaf0;
+  border-color: var(--sunny);
+}
+.lockNote {
+  margin-top: 10px;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.grow { flex: 1; min-height: 60px; }

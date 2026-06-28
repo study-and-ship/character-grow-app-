@@ -1,0 +1,81 @@
+@use "mixins" as m;
+
+.topBar { @include m.topbar; }
+.heading { font-size: 24px; }
+.iconBtn { @include m.iconbtn; }
+.pill { @include m.pill; }
+.coin { @include m.coin; }
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 16px;
+}
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cat {
+  display: flex;
+  flex-direction: column;
+}
+.catHead {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.catName {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.item {
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  padding: 10px;
+  text-align: center;
+
+  &.equipped {
+    border-color: var(--sunny);
+    background: #fffaf0;
+  }
+}
+.preview { @include m.center; height: 64px; }
+.nm {
+  font-size: 17px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.minibtn {
+  @include m.minibtn;
+  margin-top: 8px;
+  &.sec { @include m.minibtn-sec; }
+}
+.sec {}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  padding: 56px 16px;
+}
+.emptyText {
+  @include m.label;
+  font-size: 17px;
+  line-height: 1.6;
+}
+.shopBtn { @include m.btn; }
+
+.grow { flex: 1; min-height: 40px; }

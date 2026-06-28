@@ -1,0 +1,62 @@
+:root {
+  --paper: #fff9f0;
+  --card: #ffffff;
+  --ink: #4a4038;
+  --ink-soft: #8a7f73;
+  --sunny: #ffd23f;
+  --sunny-deep: #f2b705;
+  --blush: #ff9ec4;
+  --blush-soft: #ffe3ef;
+  --mint: #bfe3c8;
+  --mint-deep: #7bbf90;
+  --sky: #9bb0d4;
+  --rose: #e7b2b2;
+  --line: #e8ddcd;
+  --radius: 20px;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: 'Gaegu', system-ui, sans-serif;
+  color: var(--ink);
+  background: #efe6d8;
+  background-image: radial-gradient(circle at 20% 10%, #f6eee0 0, #e7dccb 60%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+/* 모바일 앱: 화면을 꽉 채움 */
+@media (max-width: 480px) {
+  body {
+    padding: 0;
+    align-items: stretch;
+    background: var(--paper);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

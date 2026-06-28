@@ -1,0 +1,113 @@
+@use "mixins" as m;
+
+.topbar { @include m.topbar; }
+.iconbtn { @include m.iconbtn; }
+.heading { font-size: 20px; }
+.minibtn {
+  @include m.minibtn;
+  &.sec { @include m.minibtn-sec; }
+}
+.sec {}
+.calBtn {
+  width: auto;
+  padding: 7px 14px;
+  margin: 0;
+}
+
+.dayNav {
+  @include m.row;
+  justify-content: space-between;
+  margin: 8px 2px;
+
+  .iconbtn { font-size: 30px; }
+}
+.dayLabel { font-size: 19px; }
+
+.topicRow {
+  @include m.row;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 2px 2px 8px;
+}
+.pill {
+  @include m.pill;
+  font-size: 15px;
+}
+
+.summary {
+  @include m.card;
+  text-align: center;
+  padding: 14px;
+}
+.label { @include m.label; }
+.bignum {
+  @include m.bignum;
+  span { font-size: 22px; color: var(--ink-soft); }
+}
+.bar {
+  @include m.bar;
+  margin: 10px 0 6px;
+}
+.accText {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--sunny-deep);
+}
+
+.sectionLabel {
+  @include m.label;
+  margin: 14px 2px 6px;
+}
+.recList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.recItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+.mark {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: #fff;
+  font-size: 15px;
+  margin-top: 1px;
+}
+.ok { background: #4f9d6a; }
+.no { background: #c46b6b; }
+.recBody { flex: 1; text-align: left; }
+.recQ {
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+.recAnswer {
+  @include m.sub;
+  font-size: 14px;
+  margin-top: 3px;
+}
+
+.empty {
+  @include m.center;
+  flex: 1;
+  gap: 12px;
+  color: var(--ink-soft);
+  margin-top: 40px;
+
+  p { font-size: 18px; }
+}
+.emptyIco { opacity: 0.85; }
+
+.grow { flex: 1; min-height: 10px; }

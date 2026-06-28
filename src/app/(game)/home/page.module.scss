@@ -1,0 +1,76 @@
+@use "mixins" as m;
+
+.topbar { @include m.topbar; }
+.pill {
+  @include m.pill;
+  b { color: var(--ink); }
+}
+.coin { @include m.coin; }
+.label { @include m.label; }
+
+.expCard {
+  @include m.card;
+  margin-top: 8px;
+}
+.expRow {
+  @include m.row;
+  justify-content: space-between;
+}
+.bar {
+  @include m.bar;
+  margin-top: 6px;
+}
+
+.stage {
+  @include m.center;
+  flex: 1;
+  justify-content: center;
+  gap: 14px;
+  position: relative;
+  min-height: 0;
+}
+.bubble { @include m.bubble; }
+.hatchHint {
+  @include m.label;
+  text-align: center;
+}
+
+.seg {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 10px 0 4px;
+
+  button {
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 17px;
+    border: 2px solid var(--line);
+    background: #fff;
+    color: var(--ink-soft);
+    border-radius: 12px;
+    padding: 7px 14px;
+    cursor: pointer;
+  }
+}
+.on {
+  border-color: var(--sunny) !important;
+  background: #fffaf0 !important;
+  color: var(--ink) !important;
+}
+
+.stats { @include m.stats; }
+.stat {
+  @include m.stat;
+  font-family: inherit;
+  cursor: pointer;
+}
+.ico { font-size: 22px; line-height: 0; }
+.big { font-size: 24px; font-weight: 700; line-height: 1; }
+
+.grow { flex: 0.4; min-height: 8px; }
+.quizBtn {
+  @include m.btn;
+  margin-bottom: 78px;
+}

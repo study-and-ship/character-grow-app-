@@ -1,0 +1,168 @@
+@use "mixins" as m;
+
+.modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(74, 64, 56, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  padding: 24px;
+}
+
+.box {
+  background: linear-gradient(#fffdf5, #fff6e0);
+  border: 3px solid var(--sunny);
+  border-radius: 24px;
+  padding: 24px 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 320px;
+  animation: popIn 0.25s ease;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.sub {
+  @include m.sub;
+  font-size: 18px;
+}
+.label {
+  @include m.label;
+}
+.btn {
+  @include m.btn;
+  margin-top: 8px;
+}
+.minibtn {
+  @include m.minibtn;
+  &.sec { @include m.minibtn-sec; }
+}
+.iconbtn {
+  @include m.iconbtn;
+  font-size: 30px;
+}
+.row {
+  @include m.row;
+  justify-content: space-between;
+}
+
+/* ---- 달력 ---- */
+.calhead {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  font-weight: 700;
+  margin-bottom: 4px;
+
+  > div { text-align: center; }
+}
+.calgrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+.cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 10px;
+  background: #f4ecdc;
+  color: var(--ink);
+
+  &.empty { background: transparent; }
+  &.done {
+    background: linear-gradient(#fff0bd, #ffe08a);
+    cursor: pointer;
+    &:active { transform: scale(0.9); }
+  }
+  &.today { outline: 2px solid var(--sunny-deep); outline-offset: -1px; }
+  &.focus {
+    outline: 3px solid var(--blush);
+    outline-offset: -2px;
+    box-shadow: 0 0 0 2px var(--blush-soft);
+  }
+}
+
+/* ---- 부화 연출 ---- */
+.hatchStage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  margin: 6px auto 2px;
+  overflow: visible;
+}
+.hatchEgg {
+  animation: hatchShake 0.5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+.hatchPet {
+  animation: hatchPop 0.6s cubic-bezier(0.2, 1.5, 0.4, 1) both;
+}
+.spark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  opacity: 0;
+  animation: sparkBurst 0.7s ease-out forwards;
+}
+
+@keyframes hatchShake {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  20% { transform: translateX(-9%) rotate(-8deg); }
+  55% { transform: translateX(9%) rotate(8deg); }
+  80% { transform: translateX(-4%) rotate(-3deg); }
+}
+@keyframes hatchPop {
+  0% { transform: scale(0) rotate(-25deg); opacity: 0; }
+  55% { transform: scale(1.18) rotate(8deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); }
+}
+@keyframes sparkBurst {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+  30% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--sx)), calc(-50% + var(--sy))) scale(1);
+  }
+}
+
+/* ---- 토스트 ---- */
+.toast {
+  position: absolute;
+  left: 50%;
+  bottom: 90px;
+  transform: translateX(-50%) translateY(0);
+  background: var(--ink);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 17px;
+  z-index: 30;
+  white-space: nowrap;
+  animation: toastIn 0.3s ease;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}

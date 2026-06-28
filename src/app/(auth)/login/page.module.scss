@@ -1,0 +1,13 @@
+@use "mixins" as m;
+
+.auth { @include m.auth-screen; }
+.fields { @include m.fields; }
+.input { @include m.input; }
+.btn {
+  @include m.btn;
+  margin-top: 8px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+}
+.ghost { @include m.btn-ghost; }

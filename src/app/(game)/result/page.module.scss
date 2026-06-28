@@ -1,0 +1,43 @@
+@use "mixins" as m;
+
+.head {
+  @include m.center;
+  margin-top: 16px;
+  gap: 4px;
+}
+.title {
+  @include m.title;
+  font-size: 38px;
+}
+.sub { @include m.sub; }
+
+.creature {
+  @include m.center;
+  margin: 10px 0;
+}
+
+.card {
+  @include m.card;
+  text-align: center;
+  padding: 18px;
+}
+.label { @include m.label; }
+.bignum {
+  @include m.bignum;
+  span { font-size: 24px; color: var(--ink-soft); }
+}
+.bar {
+  @include m.bar;
+  margin: 12px 0 4px;
+}
+
+.stats {
+  @include m.stats;
+  margin-top: 12px;
+}
+.stat { @include m.stat; }
+.ico { font-size: 22px; line-height: 0; }
+.big { font-size: 24px; font-weight: 700; line-height: 1; }
+
+.grow { flex: 1; min-height: 14px; }
+.btn { @include m.btn; }
