@@ -127,7 +127,7 @@ function EggShop() {
         <span className={`${styles.pill} ${styles.coin}`}><Icon name="coin" size={18} /> {g.coins}</span>
       </div>
       <div className={`${styles.note} ${styles.eggNote}`}>
-        <span className={styles.label}>🥚 아직 알이에요! 알을 꾸며보세요. 부화하면 더 많은 펫 아이템이 열려요 🔒</span>
+        <span className={styles.label}>아직 알이에요! 알을 꾸며보세요. 부화하면 더 많은 펫 아이템이 열려요</span>
       </div>
       <div className={styles.tabs}>
         {EGG_TABS.map((t) => (
@@ -163,7 +163,7 @@ function EggShop() {
         ))}
       </div>
       <div className={`${styles.note} ${styles.lockNote}`}>
-        <span className={styles.label}>🔒 펫 전용 아이템은 부화 후 오픈돼요</span>
+        <span className={styles.label}>펫 전용 아이템은 부화 후 오픈돼요</span>
       </div>
       <div className={styles.grow} />
       <BottomNav />

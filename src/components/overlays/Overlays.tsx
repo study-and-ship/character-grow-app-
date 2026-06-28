@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useGame } from "@/context/GameContext";
-import { TOPICS, PET_NAME } from "@/lib/data";
+import { PET_NAME } from "@/lib/data";
 import { dateKey } from "@/lib/game";
 import Icon from "@/components/pixel/Icon";
 import EggSprite from "@/components/pixel/EggSprite";
@@ -64,38 +64,6 @@ function CalendarModal() {
   );
 }
 
-function TopicModal() {
-  const g = useGame();
-  const router = useRouter();
-  return (
-    <div className={styles.modal} onClick={g.closeOverlay}>
-      <div className={styles.box} onClick={(e) => e.stopPropagation()}>
-        <h2 className={styles.title}>주제 선택 📚</h2>
-        <p className={styles.sub} style={{ marginBottom: 12 }}>풀고 싶은 주제를 골라보세요</p>
-        <div className={styles.optList}>
-          {TOPICS.map((t) => (
-            <button
-              key={t.k}
-              className={`${styles.opt} ${g.topic === t.k ? styles.sel : ""}`}
-              onClick={() => g.setTopic(t.k)}
-            >
-              <span className={styles.num}>{t.ico}</span>
-              <span>{t.n}</span>
-            </button>
-          ))}
-        </div>
-        <button
-          className={styles.btn}
-          onClick={() => { g.closeOverlay(); g.startQuiz(); router.push("/quiz"); }}
-        >
-          이 주제로 풀기 ▶
-        </button>
-        <button className={`${styles.minibtn} ${styles.sec}`} onClick={g.closeOverlay}>닫기</button>
-      </div>
-    </div>
-  );
-}
-
 const SPARK_COUNT = 10;
 
 function HatchModal() {
@@ -110,7 +78,7 @@ function HatchModal() {
   return (
     <div className={styles.modal}>
       <div className={styles.box}>
-        <h2 className={styles.title}>{revealed ? "알이 부화했어요! 🐣" : "알이 흔들흔들..."}</h2>
+        <h2 className={styles.title}>{revealed ? "알이 부화했어요!" : "알이 흔들흔들..."}</h2>
         <p className={styles.sub}>
           {revealed ? `${PET_NAME[g.pet]} 친구가 태어났어요!` : "곧 무언가 나올 것 같아요!"}
         </p>
@@ -144,7 +112,7 @@ function HatchModal() {
           )}
         </div>
         {revealed && (
-          <button className={styles.btn} onClick={g.closeOverlay}>반가워! 👋</button>
+          <button className={styles.btn} onClick={g.closeOverlay}>반가워!</button>
         )}
       </div>
     </div>
@@ -156,7 +124,7 @@ function LevelUpModal() {
   return (
     <div className={styles.modal}>
       <div className={styles.box}>
-        <h2 className={styles.title} style={{ fontSize: 34 }}>레벨업! 🎉</h2>
+        <h2 className={styles.title} style={{ fontSize: 34 }}>레벨업!</h2>
         <p className={styles.sub}>Lv.{g.level} 달성!</p>
         <div style={{ display: "flex", justifyContent: "center", margin: "8px 0" }}>
           <PetSprite pet={g.pet} state="correct" size={96} equipped={g.equipped} />
@@ -172,7 +140,6 @@ export default function Overlays() {
   const { overlay } = useGame();
   switch (overlay.type) {
     case "calendar": return <CalendarModal />;
-    case "topic": return <TopicModal />;
     case "hatch": return <HatchModal />;
     case "levelup": return <LevelUpModal />;
     default: return null;

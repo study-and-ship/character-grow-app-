@@ -4,7 +4,7 @@ import "./globals.scss";
 
 export const metadata: Metadata = {
   title: "퀴즈펫 QuizPet",
-  description: "매일 퀴즈로 키우는 나의 펫 🐣",
+  description: "매일 퀴즈로 키우는 나의 펫",
 };
 
 export const viewport: Viewport = {

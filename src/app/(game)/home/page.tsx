@@ -24,6 +24,7 @@ export default function HomePage() {
   const g = useGame();
   const acc = useTodayAccuracy();
   const max = expForLevel(g.level);
+  const ownedCount = Object.values(g.owned).filter(Boolean).length;
 
   return (
     <>
@@ -44,7 +45,7 @@ export default function HomePage() {
 
       <div className={styles.stage}>
         <div className={styles.bubble}>
-          {g.hatched ? MOOD_MSG[g.mood] : "문제를 풀어 레벨업하면 알이 부화해요! 🥚"}
+          {g.hatched ? MOOD_MSG[g.mood] : "문제를 풀어 레벨업하면 알이 부화해요!"}
         </div>
         <Creature state={g.mood} size={130} petSize={96} />
         {g.hatched ? (
@@ -60,7 +61,7 @@ export default function HomePage() {
             ))}
           </div>
         ) : (
-          <p className={styles.hatchHint}>레벨업하면 알이 부화해요 🥚 → 🐣</p>
+          <p className={styles.hatchHint}>레벨업하면 알이 부화해요</p>
         )}
       </div>
 
@@ -70,13 +71,10 @@ export default function HomePage() {
           <div className={styles.label}>연속 학습</div>
           <div className={styles.big}>{g.streak}일</div>
         </button>
-        <button
-          className={styles.stat}
-          onClick={() => { g.openTodayRecord(); router.push("/record"); }}
-        >
-          <div className={styles.ico}><Icon name="book" size={26} /></div>
-          <div className={styles.label}>푼 문제</div>
-          <div className={styles.big}>{g.solved}개</div>
+        <button className={styles.stat} onClick={() => router.push("/wardrobe")}>
+          <div className={styles.ico}><Icon name="shirt" size={26} /></div>
+          <div className={styles.label}>옷장</div>
+          <div className={styles.big}>{ownedCount}개</div>
         </button>
         <div className={styles.stat}>
           <div className={styles.ico}><Icon name="star" size={26} /></div>
@@ -86,7 +84,7 @@ export default function HomePage() {
       </div>
 
       <div className={styles.grow} />
-      <button className={styles.quizBtn} onClick={g.openTopicPicker}>오늘의 문제 풀기 ▶</button>
+      <button className={styles.quizBtn} onClick={() => router.push("/topic")}>오늘의 문제 풀기 ▶</button>
       <BottomNav />
     </>
   );

@@ -26,7 +26,7 @@ import {
   ymdKey,
 } from "@/lib/game";
 
-type OverlayType = "calendar" | "topic" | "hatch" | "levelup" | null;
+type OverlayType = "calendar" | "hatch" | "levelup" | null;
 type ShopTab = "hat" | "glasses";
 type EggTab = "pattern" | "hat" | "nest";
 
@@ -177,7 +177,6 @@ interface GameContextValue extends GameState {
   pickRecordDate(date: YMD): void;
   openTodayRecord(): void;
   shiftRecord(delta: number): void;
-  openTopicPicker(): void;
   closeOverlay(): void;
   showToast(message: string): void;
   clearToast(): void;
@@ -341,7 +340,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
           answered: false,
           hearts: MAX_HEARTS,
           overlay,
-          toast: s.session.leveled ? s.toast : "오늘 학습 완료! 🎉",
+          toast: s.session.leveled ? s.toast : "오늘 학습 완료!",
         };
       });
 
@@ -372,9 +371,6 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
     const shiftRecord = (delta: number) =>
       patch((s) => ({ ...s, recordDate: shiftDay(s.recordDate, delta) }));
-
-    const openTopicPicker = () =>
-      patch((s) => ({ ...s, overlay: { type: "topic", reward: 0 } }));
 
     const closeOverlay = () =>
       patch((s) => ({
@@ -407,7 +403,6 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       pickRecordDate,
       openTodayRecord,
       shiftRecord,
-      openTopicPicker,
       closeOverlay,
       showToast,
       clearToast,

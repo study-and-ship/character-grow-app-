@@ -19,14 +19,14 @@ export default function StartPage() {
   return (
     <div className={styles.start}>
       <div className={styles.head}>
-        <h1 className={styles.title}>나만의 알 받기 🥚</h1>
+        <h1 className={styles.title}>나만의 알 받기</h1>
         <p className={styles.sub}>닉네임을 정하면 알이 도착해요</p>
       </div>
       <div className={styles.egg}>
         <EggSprite size={40} withQuestion />
       </div>
       <div className={styles.bubble}>
-        어떤 친구가 나올지는 아직 비밀! 문제를 풀어 알을 깨면 랜덤으로 펫이 태어나요 ✨
+        어떤 친구가 나올지는 아직 비밀! 문제를 풀어 알을 깨면 랜덤으로 펫이 태어나요
       </div>
       <p className={styles.label}>닉네임을 입력해주세요</p>
       <input

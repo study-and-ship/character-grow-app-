@@ -47,9 +47,6 @@
   @include m.minibtn;
   &.sec { @include m.minibtn-sec; }
 }
-.opt {
-  @include m.opt;
-}
 .iconbtn {
   @include m.iconbtn;
   font-size: 30px;
@@ -57,11 +54,6 @@
 .row {
   @include m.row;
   justify-content: space-between;
-}
-.optList {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
 }
 
 /* ---- 달력 ---- */

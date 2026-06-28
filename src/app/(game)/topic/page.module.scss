@@ -1,0 +1,53 @@
+@use "mixins" as m;
+
+.topBar { @include m.topbar; }
+.heading { font-size: 24px; }
+.iconBtn { @include m.iconbtn; }
+.spacer { width: 24px; }
+.sub {
+  @include m.sub;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.optList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.opt { @include m.opt; }
+.sel {}
+.num {}
+
+.customWrap {
+  margin-top: 22px;
+}
+.customLabel {
+  @include m.label;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+.customInput {
+  width: 100%;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 13px 14px;
+  outline: none;
+  transition: 0.12s;
+
+  &::placeholder {
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  &:focus {
+    border-color: var(--sunny);
+  }
+}
+
+.grow { flex: 1; min-height: 24px; }
+.startBtn { @include m.btn; }

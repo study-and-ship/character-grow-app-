@@ -38,7 +38,7 @@ export default function QuizPage() {
       </div>
 
       <div className={styles.topicRow}>
-        <span className={styles.pill}>{topic.ico} {topic.n} 학습 중</span>
+        <span className={styles.pill}>{topic.n} 학습 중</span>
       </div>
 
       <div className={styles.qcard}>{q.q}</div>
@@ -77,7 +77,7 @@ export default function QuizPage() {
           </button>
           {g.showExp && (
             <div className={styles.expBox}>
-              <b>💡 해설</b>
+              <b>해설</b>
               <span>{q.e || "해설이 준비 중이에요."}</span>
             </div>
           )}

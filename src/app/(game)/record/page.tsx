@@ -22,8 +22,7 @@ export default function RecordPage() {
   const ok = recs.filter((r) => r.correct).length;
   const acc = accuracy(ok, total);
   const topics = [...new Set(recs.map((r) => r.topic))]
-    .map((tk) => TOPICS.find((t) => t.k === tk))
-    .filter(Boolean);
+    .map((tk) => TOPICS.find((t) => t.k === tk) ?? { k: tk, n: tk, ico: "" });
 
   return (
     <>
@@ -52,7 +51,7 @@ export default function RecordPage() {
         <>
           <div className={styles.topicRow}>
             {topics.map((t) => (
-              <span key={t!.k} className={styles.pill}>{t!.ico} {t!.n}</span>
+              <span key={t!.k} className={styles.pill}>{t!.n}</span>
             ))}
           </div>
           <div className={styles.summary}>

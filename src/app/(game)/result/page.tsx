@@ -13,7 +13,7 @@ export default function ResultPage() {
   const { total, correct, exp, coins } = g.session;
   const acc = accuracy(correct, total);
   const petState = correct >= Math.ceil(total / 2) ? "correct" : "sulk";
-  const msg = acc === 100 ? "완벽해요! 🏆" : acc >= 60 ? "잘했어요! 👏" : "다음엔 더 잘할 수 있어요 💪";
+  const msg = acc === 100 ? "완벽해요!" : acc >= 60 ? "잘했어요!" : "다음엔 더 잘할 수 있어요";
   const expSign = exp >= 0 ? "+" : "";
 
   const goHome = () => {
