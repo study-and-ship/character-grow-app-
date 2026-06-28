@@ -1,0 +1,272 @@
+@mixin title {
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -1px;
+}
+
+@mixin sub {
+  color: var(--ink-soft);
+  font-size: 20px;
+}
+
+@mixin label {
+  color: var(--ink-soft);
+  font-size: 16px;
+}
+
+@mixin center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@mixin row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@mixin btn {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 22px;
+  border: none;
+  cursor: pointer;
+  background: var(--sunny);
+  color: #5b4a12;
+  padding: 14px 18px;
+  border-radius: 16px;
+  box-shadow: 0 4px 0 var(--sunny-deep);
+  transition: transform 0.08s, box-shadow 0.08s;
+  width: 100%;
+
+  &:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--sunny-deep);
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin btn-ghost {
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 4px 0 var(--line);
+}
+
+@mixin input {
+  font-family: inherit;
+  font-size: 22px;
+  width: 100%;
+  padding: 13px 16px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--ink);
+  outline: none;
+
+  &:focus {
+    border-color: var(--sunny);
+  }
+}
+
+@mixin card {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+
+@mixin pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+@mixin coin {
+  color: #c98a00;
+}
+
+@mixin bar {
+  height: 16px;
+  background: #f0e7d8;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 2px solid var(--line);
+
+  > i {
+    display: block;
+    height: 100%;
+    background: linear-gradient(var(--sunny), var(--sunny-deep));
+    transition: width 0.5s ease;
+  }
+}
+
+@mixin bubble {
+  position: relative;
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 8px 12px;
+  font-size: 18px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -9px;
+    left: 28px;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-right: 2px solid var(--line);
+    border-bottom: 2px solid var(--line);
+    transform: rotate(45deg);
+  }
+}
+
+@mixin minibtn {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
+  padding: 6px 0;
+  width: 100%;
+  margin-top: 8px;
+  cursor: pointer;
+  background: var(--sunny);
+  color: #5b4a12;
+  box-shadow: 0 3px 0 var(--sunny-deep);
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 var(--sunny-deep);
+  }
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+@mixin minibtn-sec {
+  background: #f3ead9;
+  color: var(--ink);
+  box-shadow: 0 3px 0 var(--line);
+}
+
+@mixin topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+@mixin iconbtn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--ink);
+  font-family: inherit;
+}
+
+@mixin bignum {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* 통계 그리드 (홈·결과 공용) */
+@mixin stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+@mixin stat {
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  padding: 12px 6px;
+  text-align: center;
+
+  .ico {
+    font-size: 22px;
+  }
+  .big {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+  }
+}
+
+/* 선택지 (퀴즈·주제선택 공용) */
+@mixin opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  font-size: 19px;
+  font-weight: 700;
+  background: #fff;
+  border: 2px solid var(--line);
+  color: var(--ink);
+  border-radius: 14px;
+  padding: 13px 14px;
+  cursor: pointer;
+  transition: 0.12s;
+
+  .num {
+    width: 26px;
+    height: 26px;
+    flex: none;
+    border-radius: 8px;
+    background: #f3ead9;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  &.sel {
+    border-color: var(--sunny);
+    background: #fffaf0;
+    .num { background: var(--sunny); color: #5b4a12; }
+  }
+  &.correct {
+    border-color: var(--mint-deep);
+    background: #f1faf3;
+    .num { background: var(--mint-deep); color: #fff; }
+  }
+  &.wrong {
+    border-color: var(--rose);
+    background: #fcf1f1;
+    .num { background: var(--rose); color: #fff; }
+  }
+}
+
+/* 인증 화면 공용 레이아웃 (login·signup·start) */
+@mixin auth-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding-bottom: 30px;
+}
+@mixin fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}

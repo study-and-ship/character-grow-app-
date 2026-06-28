@@ -1,0 +1,45 @@
+@use "mixins" as m;
+
+.start {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+.title {
+  @include m.title;
+  text-align: center;
+  font-size: 30px;
+}
+.sub {
+  @include m.sub;
+  margin-top: 6px;
+}
+.egg {
+  display: flex;
+  justify-content: center;
+  margin: 14px 0 6px;
+}
+.bubble {
+  @include m.bubble;
+  max-width: 280px;
+  margin: 0 auto 12px;
+  text-align: center;
+  line-height: 1.4;
+
+  &::after { display: none; }
+}
+.label {
+  @include m.label;
+  margin: 6px 0;
+}
+.input { @include m.input; }
+.spacer { flex: 1; }
+.btn { @include m.btn; }

@@ -1,0 +1,80 @@
+@use "mixins" as m;
+
+.topbar { @include m.topbar; }
+.iconbtn { @include m.iconbtn; }
+.count { font-size: 20px; }
+
+.topicRow {
+  @include m.center;
+  margin: 2px 0 4px;
+}
+.pill {
+  @include m.pill;
+  font-size: 16px;
+}
+
+.qcard {
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-top: 6px;
+}
+
+.creature {
+  @include m.center;
+  margin: 12px 0;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.opt { @include m.opt; }
+
+.grow { flex: 1; min-height: 12px; }
+
+.btn {
+  @include m.btn;
+  margin-top: 10px;
+}
+.minibtn {
+  @include m.minibtn;
+  width: 100%;
+  margin-top: 10px;
+  &.sec { @include m.minibtn-sec; }
+}
+.sec {}
+
+.feedback {
+  border-radius: 16px;
+  padding: 12px 14px;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+}
+.fbCorrect {
+  background: #eef8f0;
+  color: #3f7a51;
+  border: 2px solid var(--mint);
+}
+.fbWrong {
+  background: #fbeeee;
+  color: #a85c5c;
+  border: 2px solid var(--rose);
+}
+
+.expBox {
+  @include m.card;
+  margin-top: 10px;
+  text-align: left;
+  background: #fffaf0;
+  border-color: var(--sunny);
+
+  b { display: block; margin-bottom: 4px; }
+  span { font-size: 18px; line-height: 1.45; }
+}
