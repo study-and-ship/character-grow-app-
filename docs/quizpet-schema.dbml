@@ -1,0 +1,290 @@
+// QuizPet 사용자 앱 목표 스키마
+// 기준: 2026-07-05 논의된 퀴즈 세션/재개/완료 보상 정책
+
+Enum character_growth_stage {
+  egg [note: '알 단계']
+  baby [note: '아기 단계']
+  child [note: '어린이 단계']
+  teen [note: '청소년 단계']
+  adult [note: '성체 단계']
+}
+
+Enum question_status {
+  draft [note: '작성 중이며 출제하지 않는 문제']
+  published [note: '사용자에게 출제할 수 있는 문제']
+  archived [note: '보관 상태이며 신규 세션에는 출제하지 않는 문제']
+}
+
+Enum quiz_session_status {
+  in_progress [note: '문제를 푸는 중']
+  ready_to_complete [note: '모든 답안을 제출했지만 보상은 아직 지급하지 않은 상태']
+  completed [note: '결과 보기 처리와 보상 지급이 완료된 상태']
+  abandoned [note: '운영 정책에 따라 폐기된 세션']
+}
+
+Enum item_target_type {
+  egg [note: '부화 전 알에 사용하는 아이템']
+  pet [note: '부화 후 펫에 사용하는 아이템']
+}
+
+Enum equipment_slot {
+  pattern [note: '알 무늬 장착 부위']
+  hat [note: '모자 장착 부위']
+  glasses [note: '안경 장착 부위']
+  nest [note: '둥지 장착 부위']
+}
+
+Table auth.users {
+  id uuid [pk, note: 'Supabase Auth 사용자 ID']
+  email varchar [not null, unique, note: '로그인과 계정 식별에 사용하는 이메일']
+
+  Note: '인증 사용자. 실제 auth.users 전체 구조가 아니라 앱 테이블과의 관계를 보여주기 위한 축약 표현이다. 비밀번호 해시는 Supabase 내부에서 관리하며 앱 스키마에 정의하지 않는다.'
+}
+
+Table profiles {
+  id uuid [pk, note: 'auth.users.id와 동일']
+  nickname varchar(20) [note: '앱 화면에 표시하는 사용자 닉네임']
+  coins int [not null, default: 300, note: '현재 사용 가능한 코인 잔액, 0 이상']
+  created_at timestamptz [not null, default: `now()`, note: '서비스 프로필 생성 일시']
+  updated_at timestamptz [not null, default: `now()`, note: '프로필 마지막 수정 일시']
+
+  Note: '사용자 앱 프로필. auth.users와 1:1 관계이며 이메일과 비밀번호는 이 테이블에 저장하지 않는다.'
+}
+
+Table user_streaks {
+  user_id uuid [pk, note: '연속 학습 기록의 소유자 ID이며 profiles.id 참조']
+  current_streak int [not null, default: 0, note: '현재 연속으로 퀴즈 완료 보상을 받은 일수']
+  longest_streak int [not null, default: 0, note: '사용자가 달성한 최장 연속 학습일']
+  last_completed_date date [note: '마지막으로 퀴즈 완료 보상을 받은 한국 기준 날짜']
+  created_at timestamptz [not null, default: `now()`, note: '연속 학습 행 생성 일시']
+  updated_at timestamptz [not null, default: `now()`, note: '연속 학습 집계 마지막 갱신 일시']
+
+  Note: '완료된 퀴즈 세션에서 계산한 빠른 조회용 집계. 문제별 제출 때가 아니라 결과 보기에서 세션 보상이 완료될 때 하루 한 번 갱신한다.'
+}
+
+Table character_types {
+  id bigint [pk, increment, note: '펫 종류 식별자']
+  name varchar(50) [not null, note: '토끼, 고양이, 햄스터 같은 펫 종류명']
+  sprite_key varchar(50) [not null, unique, note: '프론트엔드 픽셀 그래픽과 연결하는 고유 키']
+  description text [note: '펫 종류에 대한 관리자용 설명']
+  is_active boolean [not null, default: true, note: '신규 사용자에게 이 펫 종류를 배정할 수 있는지 여부']
+  created_at timestamptz [not null, default: `now()`, note: '펫 종류 생성 일시']
+  updated_at timestamptz [not null, default: `now()`, note: '펫 종류 마지막 수정 일시']
+
+  Note: '토끼, 고양이, 햄스터처럼 사용자가 배정받을 수 있는 펫 종류의 기준 정보다.'
+}
+
+Table character_type_stages {
+  id bigint [pk, increment, note: '펫 종류별 성장 단계 설정 식별자']
+  character_type_id bigint [not null, note: '성장 단계를 설정할 펫 종류 ID']
+  growth_stage character_growth_stage [not null, note: '알, 아기, 어린이, 청소년, 성체 중 하나']
+  min_level int [not null, note: '해당 성장 단계가 시작되는 최소 레벨']
+  image_url text [note: '해당 펫 종류와 성장 단계에 사용할 이미지 주소']
+  created_at timestamptz [not null, default: `now()`, note: '성장 단계 설정 생성 일시']
+  updated_at timestamptz [not null, default: `now()`, note: '성장 단계 설정 마지막 수정 일시']
+
+  indexes {
+    (character_type_id, growth_stage) [unique]
+    (character_type_id, min_level) [unique]
+  }
+
+  Note: '펫 종류별 성장 단계의 최소 레벨과 이미지'
+}
+
+Table characters {
+  id bigint [pk, increment, note: '사용자가 실제로 키우는 펫 식별자']
+  user_id uuid [not null, unique, note: 'MVP에서는 사용자당 캐릭터 1개']
+  character_type_id bigint [not null, note: '이 사용자 펫의 종류 ID']
+  level int [not null, default: 1, note: '퀴즈 완료 시 확정되는 현재 레벨']
+  exp int [not null, default: 0, note: '현재 레벨 안에서의 경험치']
+  total_exp int [not null, default: 0, note: '누적 경험치의 원본 값']
+  growth_stage character_growth_stage [not null, default: 'egg', note: '현재 확정된 외형 성장 단계']
+  hatched_at timestamptz [note: '알에서 펫으로 부화가 최초 확정된 일시']
+  created_at timestamptz [not null, default: `now()`, note: '사용자 펫 생성 일시']
+  updated_at timestamptz [not null, default: `now()`, note: '사용자 펫 상태 마지막 수정 일시']
+
+  Note: 'level, exp, growth_stage는 total_exp와 성장 정책에서 파생되지만 홈 조회와 확정 상태 보존을 위해 함께 저장하고 완료 트랜잭션에서 동시에 갱신'
+}
+
+Table character_growth_histories {
+  id bigint [pk, increment, note: '캐릭터 성장 이력 식별자']
+  character_id bigint [not null, note: '성장 상태가 변경된 사용자 펫 ID']
+  quiz_session_id bigint [not null, unique, note: '성장과 보상을 발생시킨 완료 퀴즈 세션 ID']
+  gained_exp int [not null, note: '해당 완료 처리에서 지급한 경험치']
+  before_level int [not null, note: '보상 지급 직전 레벨']
+  after_level int [not null, note: '보상 지급 직후 레벨']
+  before_stage character_growth_stage [not null, note: '보상 지급 직전 성장 단계']
+  after_stage character_growth_stage [not null, note: '보상 지급 직후 성장 단계']
+  created_at timestamptz [not null, default: `now()`, note: '성장 이력 생성 일시']
+
+  Note: '퀴즈 완료로 발생한 경험치와 성장 변경 감사 기록'
+}
+
+Table question_categories {
+  id bigint [pk, increment, note: '문제 카테고리 식별자']
+  code varchar(50) [not null, unique, note: 'API와 프론트엔드에서 사용하는 카테고리 고유 코드']
+  name varchar(100) [not null, note: '웹 기초, 자바스크립트 같은 사용자 표시명']
+  is_active boolean [not null, default: true, note: '신규 퀴즈 세션에서 선택 가능한 카테고리인지 여부']
+  created_at timestamptz [not null, default: `now()`, note: '카테고리 생성 일시']
+  updated_at timestamptz [not null, default: `now()`, note: '카테고리 마지막 수정 일시']
+
+  Note: '문제를 주제별로 묶고 오늘의 퀴즈가 어떤 주제인지 나타내는 기준 정보다.'
+}
+
+Table questions {
+  id bigint [pk, increment, note: '문제 식별자이자 문제 버전 행의 ID']
+  category_id bigint [not null, note: '문제가 속한 카테고리 ID']
+  supersedes_question_id bigint [unique, note: '정답이나 본문 교정 시 대체한 이전 문제 ID']
+  version int [not null, default: 1, note: '동일 문제의 교정 버전 번호']
+  title varchar(200) [note: '관리자용 문제 이름, 사용자 화면에는 노출하지 않아도 됨']
+  question_text text [not null, note: '사용자 퀴즈 화면에 표시하는 실제 문제 본문']
+  explanation text [note: '답안 제출 후 사용자에게 보여주는 문제 해설']
+  difficulty int [not null, default: 1, note: '출제 분배에 사용할 난이도 숫자']
+  status question_status [not null, default: 'draft', note: '초안, 출제 가능, 보관 상태']
+  created_at timestamptz [not null, default: `now()`, note: '문제 버전 생성 일시']
+  updated_at timestamptz [not null, default: `now()`, note: '문제 버전 마지막 수정 일시']
+
+  Note: 'published 문제는 직접 수정하지 않고 교정본을 새 행으로 생성하는 것을 권장'
+}
+
+Table question_choices {
+  id bigint [pk, increment, note: '문제 보기 식별자']
+  question_id bigint [not null, note: '이 보기가 속한 문제 ID']
+  choice_text text [not null, note: '사용자에게 표시하는 보기 내용']
+  sort_order int [not null, note: '문제 안에서 보기를 표시하는 순서']
+  is_correct boolean [not null, default: false, note: '이 보기가 해당 문제의 정답인지 여부']
+  created_at timestamptz [not null, default: `now()`, note: '보기 생성 일시']
+  updated_at timestamptz [not null, default: `now()`, note: '보기 마지막 수정 일시']
+
+  indexes {
+    (question_id, sort_order) [unique]
+  }
+
+  Note: '문제당 정답 선택지는 정확히 1개가 되도록 DB 트리거 또는 관리 API에서 검증'
+}
+
+Table quiz_sessions {
+  id bigint [pk, increment, note: '오늘의 퀴즈 세션 식별자']
+  user_id uuid [not null, note: '이 퀴즈 세션을 진행하는 사용자 ID']
+  category_id bigint [not null, note: '세션에서 출제할 문제 카테고리 ID']
+  session_date date [not null, note: '서버가 Asia/Seoul 기준으로 결정']
+  status quiz_session_status [not null, default: 'in_progress', note: '진행 중, 결과 준비, 보상 완료, 폐기 중 하나인 세션 상태']
+  max_hearts int [not null, default: 3, note: '세션 시작 시 부여한 최대 하트 수']
+  hearts_remaining int [not null, default: 3, note: '재접속 후 복원할 현재 남은 하트 수']
+  total_question_count int [not null, default: 5, note: '세션 시작 시 배정한 전체 문제 수']
+  correct_count int [not null, default: 0, note: 'completed 시점에만 확정']
+  earned_exp int [not null, default: 0, note: 'completed 시점에만 확정 및 지급']
+  earned_coins int [not null, default: 0, note: 'completed 시점에만 확정 및 지급']
+  started_at timestamptz [not null, default: `now()`, note: '사용자가 오늘의 문제를 최초로 시작한 일시']
+  all_answered_at timestamptz [note: '모든 세션 문제의 답안 제출이 끝난 일시']
+  completed_at timestamptz [note: '결과 보기 요청에서 보상이 지급된 시각']
+  created_at timestamptz [not null, default: `now()`, note: '퀴즈 세션 행 생성 일시']
+  updated_at timestamptz [not null, default: `now()`, note: '진행 상태 또는 하트의 마지막 수정 일시']
+
+  indexes {
+    (user_id, session_date) [unique]
+  }
+
+  Note: '오늘의 문제 세트와 진행 상태. 모든 문제 제출 후 ready_to_complete, 결과 보기 트랜잭션 성공 후 completed'
+}
+
+Table quiz_session_questions {
+  id bigint [pk, increment, note: '세션에 배정된 개별 문제 식별자']
+  quiz_session_id bigint [not null, note: '이 문제가 포함된 오늘의 퀴즈 세션 ID']
+  question_id bigint [not null, note: '세션 시작 시 선택된 published 문제 버전을 고정']
+  sort_order int [not null, note: '세션 안에서 문제를 보여주는 순서']
+  created_at timestamptz [not null, default: `now()`, note: '문제가 세션에 배정된 일시']
+
+  indexes {
+    (quiz_session_id, sort_order) [unique]
+    (quiz_session_id, question_id) [unique]
+  }
+
+  Note: '세션 시작 시 오늘 풀 문제와 순서를 확정하여 재접속해도 같은 문제를 제공'
+}
+
+Table user_question_answers {
+  id bigint [pk, increment, note: '사용자 문제 답안 식별자']
+  quiz_session_question_id bigint [not null, unique, note: '사용자가 답한 세션 문제 ID, 한 세션 문제당 답안은 최대 1개']
+  selected_choice_id bigint [not null, note: '사용자가 제출한 문제 보기 ID']
+  is_correct boolean [not null, note: '제출 당시 서버가 판정한 정답 여부 스냅샷']
+  answered_at timestamptz [not null, default: `now()`, note: '서버가 답안을 정상 접수한 일시']
+
+  Note: 'session, question, user는 quiz_session_question을 통해 결정되므로 중복 FK를 저장하지 않음'
+}
+
+Table item_categories {
+  id bigint [pk, increment, note: '아이템 카테고리 식별자']
+  code varchar(50) [not null, unique, note: 'API와 프론트엔드에서 사용하는 카테고리 고유 코드']
+  name varchar(100) [not null, note: '모자, 안경, 무늬, 둥지 같은 카테고리 표시명']
+  slot equipment_slot [not null, note: '이 카테고리 아이템이 장착되는 부위']
+  target_type item_target_type [not null, note: '부화 전 알 또는 부화 후 펫 중 적용 대상']
+  created_at timestamptz [not null, default: `now()`, note: '아이템 카테고리 생성 일시']
+  updated_at timestamptz [not null, default: `now()`, note: '아이템 카테고리 마지막 수정 일시']
+
+  Note: '상점 아이템을 장착 부위와 적용 대상에 따라 분류하는 기준 정보다.'
+}
+
+Table shop_items {
+  id bigint [pk, increment, note: '상점 아이템 식별자']
+  category_id bigint [not null, note: '이 아이템이 속한 아이템 카테고리 ID']
+  name varchar(100) [not null, note: '상점과 옷장 화면에 표시하는 아이템명']
+  price int [not null, note: '구매에 필요한 코인 가격, 0 이상']
+  asset_key varchar(100) [not null, unique, note: '프론트엔드 픽셀 그래픽과 연결하는 고유 키']
+  is_active boolean [not null, default: true, note: '현재 상점에서 신규 구매할 수 있는지 여부']
+  created_at timestamptz [not null, default: `now()`, note: '상점 아이템 생성 일시']
+  updated_at timestamptz [not null, default: `now()`, note: '상점 아이템 마지막 수정 일시']
+
+  Note: '사용자가 코인으로 구매할 수 있는 아이템 상품 정보다.'
+}
+
+Table user_items {
+  id bigint [pk, increment, note: '사용자 보유 아이템 식별자']
+  user_id uuid [not null, note: '아이템을 구매하여 보유한 사용자 ID']
+  item_id bigint [not null, note: '사용자가 보유한 상점 아이템 ID']
+  purchased_at timestamptz [not null, default: `now()`, note: '구매 트랜잭션이 성공한 일시']
+
+  indexes {
+    (user_id, item_id) [unique]
+  }
+
+  Note: '사용자와 상점 아이템의 N:M 관계를 해소하는 보유 아이템 테이블'
+}
+
+Table character_equipment {
+  character_id bigint [not null, note: '아이템을 장착한 사용자 펫 ID']
+  slot equipment_slot [not null, note: '아이템을 장착한 부위, 캐릭터별 같은 부위는 하나만 존재']
+  user_item_id bigint [not null, unique, note: '실제로 장착한 사용자 보유 아이템 ID']
+  equipped_at timestamptz [not null, default: `now()`, note: '현재 아이템으로 장착하거나 교체한 일시']
+
+  indexes {
+    (character_id, slot) [pk]
+  }
+
+  Note: '캐릭터의 슬롯별 현재 장착 상태. user_item이 캐릭터 소유자의 것인지와 슬롯 일치 여부는 장착 트랜잭션에서 검증'
+}
+
+Ref: auth.users.id - profiles.id
+Ref: profiles.id - user_streaks.user_id
+Ref: profiles.id - characters.user_id
+Ref: character_types.id < character_type_stages.character_type_id
+Ref: character_types.id < characters.character_type_id
+Ref: characters.id < character_growth_histories.character_id
+
+Ref: question_categories.id < questions.category_id
+Ref: questions.id - questions.supersedes_question_id
+Ref: questions.id < question_choices.question_id
+
+Ref: profiles.id < quiz_sessions.user_id
+Ref: question_categories.id < quiz_sessions.category_id
+Ref: quiz_sessions.id < quiz_session_questions.quiz_session_id
+Ref: questions.id < quiz_session_questions.question_id
+Ref: quiz_session_questions.id - user_question_answers.quiz_session_question_id
+Ref: question_choices.id < user_question_answers.selected_choice_id
+Ref: quiz_sessions.id - character_growth_histories.quiz_session_id
+
+Ref: item_categories.id < shop_items.category_id
+Ref: profiles.id < user_items.user_id
+Ref: shop_items.id < user_items.item_id
+Ref: characters.id < character_equipment.character_id
+Ref: user_items.id - character_equipment.user_item_id

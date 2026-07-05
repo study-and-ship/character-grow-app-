@@ -14,78 +14,77 @@ export type Database = {
   }
   public: {
     Tables: {
-      admin_profiles: {
+      character_equipment: {
         Row: {
-          created_at: string
-          id: string
-          role: Database["public"]["Enums"]["admin_role"]
-          updated_at: string
+          character_id: number
+          equipped_at: string
+          slot: Database["public"]["Enums"]["equipment_slot"]
+          user_item_id: number
         }
         Insert: {
-          created_at?: string
-          id: string
-          role?: Database["public"]["Enums"]["admin_role"]
-          updated_at?: string
+          character_id: number
+          equipped_at?: string
+          slot: Database["public"]["Enums"]["equipment_slot"]
+          user_item_id: number
         }
         Update: {
-          created_at?: string
-          id?: string
-          role?: Database["public"]["Enums"]["admin_role"]
-          updated_at?: string
+          character_id?: number
+          equipped_at?: string
+          slot?: Database["public"]["Enums"]["equipment_slot"]
+          user_item_id?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "character_equipment_character_id_fkey"
+            columns: ["character_id"]
+            isOneToOne: false
+            referencedRelation: "characters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "character_equipment_user_item_id_fkey"
+            columns: ["user_item_id"]
+            isOneToOne: true
+            referencedRelation: "user_items"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       character_growth_histories: {
         Row: {
           after_level: number
           after_stage: Database["public"]["Enums"]["character_growth_stage"]
-          answer_id: number | null
           before_level: number
           before_stage: Database["public"]["Enums"]["character_growth_stage"]
           character_id: number
           created_at: string
           gained_exp: number
           id: number
-          quiz_session_id: number | null
-          reason: string
-          user_id: string
+          quiz_session_id: number
         }
         Insert: {
           after_level: number
           after_stage: Database["public"]["Enums"]["character_growth_stage"]
-          answer_id?: number | null
           before_level: number
           before_stage: Database["public"]["Enums"]["character_growth_stage"]
           character_id: number
           created_at?: string
-          gained_exp?: number
+          gained_exp: number
           id?: number
-          quiz_session_id?: number | null
-          reason: string
-          user_id: string
+          quiz_session_id: number
         }
         Update: {
           after_level?: number
           after_stage?: Database["public"]["Enums"]["character_growth_stage"]
-          answer_id?: number | null
           before_level?: number
           before_stage?: Database["public"]["Enums"]["character_growth_stage"]
           character_id?: number
           created_at?: string
           gained_exp?: number
           id?: number
-          quiz_session_id?: number | null
-          reason?: string
-          user_id?: string
+          quiz_session_id?: number
         }
         Relationships: [
-          {
-            foreignKeyName: "character_growth_histories_answer_id_fkey"
-            columns: ["answer_id"]
-            isOneToOne: false
-            referencedRelation: "user_question_answers"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "character_growth_histories_character_id_fkey"
             columns: ["character_id"]
@@ -96,7 +95,7 @@ export type Database = {
           {
             foreignKeyName: "character_growth_histories_quiz_session_id_fkey"
             columns: ["quiz_session_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "quiz_sessions"
             referencedColumns: ["id"]
           },
@@ -118,7 +117,7 @@ export type Database = {
           growth_stage: Database["public"]["Enums"]["character_growth_stage"]
           id?: number
           image_url?: string | null
-          min_level?: number
+          min_level: number
           updated_at?: string
         }
         Update: {
@@ -147,6 +146,7 @@ export type Database = {
           id: number
           is_active: boolean
           name: string
+          sprite_key: string
           updated_at: string
         }
         Insert: {
@@ -155,6 +155,7 @@ export type Database = {
           id?: number
           is_active?: boolean
           name: string
+          sprite_key: string
           updated_at?: string
         }
         Update: {
@@ -163,6 +164,7 @@ export type Database = {
           id?: number
           is_active?: boolean
           name?: string
+          sprite_key?: string
           updated_at?: string
         }
         Relationships: []
@@ -173,6 +175,7 @@ export type Database = {
           created_at: string
           exp: number
           growth_stage: Database["public"]["Enums"]["character_growth_stage"]
+          hatched_at: string | null
           id: number
           level: number
           total_exp: number
@@ -184,6 +187,7 @@ export type Database = {
           created_at?: string
           exp?: number
           growth_stage?: Database["public"]["Enums"]["character_growth_stage"]
+          hatched_at?: string | null
           id?: number
           level?: number
           total_exp?: number
@@ -195,6 +199,7 @@ export type Database = {
           created_at?: string
           exp?: number
           growth_stage?: Database["public"]["Enums"]["character_growth_stage"]
+          hatched_at?: string | null
           id?: number
           level?: number
           total_exp?: number
@@ -209,25 +214,92 @@ export type Database = {
             referencedRelation: "character_types"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "characters_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
         ]
+      }
+      item_categories: {
+        Row: {
+          code: string
+          created_at: string
+          id: number
+          name: string
+          slot: Database["public"]["Enums"]["equipment_slot"]
+          target_type: Database["public"]["Enums"]["item_target_type"]
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: number
+          name: string
+          slot: Database["public"]["Enums"]["equipment_slot"]
+          target_type: Database["public"]["Enums"]["item_target_type"]
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: number
+          name?: string
+          slot?: Database["public"]["Enums"]["equipment_slot"]
+          target_type?: Database["public"]["Enums"]["item_target_type"]
+          updated_at?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
+          coins: number
           created_at: string
           id: string
           nickname: string | null
           updated_at: string
         }
         Insert: {
+          coins?: number
           created_at?: string
           id: string
           nickname?: string | null
           updated_at?: string
         }
         Update: {
+          coins?: number
           created_at?: string
           id?: string
           nickname?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      question_categories: {
+        Row: {
+          code: string
+          created_at: string
+          id: number
+          is_active: boolean
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: number
+          is_active?: boolean
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: number
+          is_active?: boolean
+          name?: string
           updated_at?: string
         }
         Relationships: []
@@ -248,7 +320,7 @@ export type Database = {
           id?: number
           is_correct?: boolean
           question_id: number
-          sort_order?: number
+          sort_order: number
           updated_at?: string
         }
         Update: {
@@ -270,97 +342,59 @@ export type Database = {
           },
         ]
       }
-      question_upload_batches: {
-        Row: {
-          admin_user_id: string
-          created_at: string
-          fail_count: number
-          failed_items: Json | null
-          file_name: string | null
-          id: number
-          success_count: number
-          total_count: number
-        }
-        Insert: {
-          admin_user_id: string
-          created_at?: string
-          fail_count?: number
-          failed_items?: Json | null
-          file_name?: string | null
-          id?: number
-          success_count?: number
-          total_count?: number
-        }
-        Update: {
-          admin_user_id?: string
-          created_at?: string
-          fail_count?: number
-          failed_items?: Json | null
-          file_name?: string | null
-          id?: number
-          success_count?: number
-          total_count?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "question_upload_batches_admin_user_id_fkey"
-            columns: ["admin_user_id"]
-            isOneToOne: false
-            referencedRelation: "admin_profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       questions: {
         Row: {
-          category: string | null
+          category_id: number
           created_at: string
-          created_by_admin_id: string | null
           difficulty: number
           explanation: string | null
           id: number
           question_text: string
           status: Database["public"]["Enums"]["question_status"]
+          supersedes_question_id: number | null
+          title: string | null
           updated_at: string
-          upload_batch_id: number | null
+          version: number
         }
         Insert: {
-          category?: string | null
+          category_id: number
           created_at?: string
-          created_by_admin_id?: string | null
           difficulty?: number
           explanation?: string | null
           id?: number
           question_text: string
           status?: Database["public"]["Enums"]["question_status"]
+          supersedes_question_id?: number | null
+          title?: string | null
           updated_at?: string
-          upload_batch_id?: number | null
+          version?: number
         }
         Update: {
-          category?: string | null
+          category_id?: number
           created_at?: string
-          created_by_admin_id?: string | null
           difficulty?: number
           explanation?: string | null
           id?: number
           question_text?: string
           status?: Database["public"]["Enums"]["question_status"]
+          supersedes_question_id?: number | null
+          title?: string | null
           updated_at?: string
-          upload_batch_id?: number | null
+          version?: number
         }
         Relationships: [
           {
-            foreignKeyName: "questions_created_by_admin_id_fkey"
-            columns: ["created_by_admin_id"]
+            foreignKeyName: "questions_category_id_fkey"
+            columns: ["category_id"]
             isOneToOne: false
-            referencedRelation: "admin_profiles"
+            referencedRelation: "question_categories"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "questions_upload_batch_id_fkey"
-            columns: ["upload_batch_id"]
-            isOneToOne: false
-            referencedRelation: "question_upload_batches"
+            foreignKeyName: "questions_supersedes_question_id_fkey"
+            columns: ["supersedes_question_id"]
+            isOneToOne: true
+            referencedRelation: "questions"
             referencedColumns: ["id"]
           },
         ]
@@ -406,11 +440,17 @@ export type Database = {
       }
       quiz_sessions: {
         Row: {
+          all_answered_at: string | null
+          category_id: number
           completed_at: string | null
           correct_count: number
           created_at: string
+          earned_coins: number
           earned_exp: number
+          hearts_remaining: number
           id: number
+          max_hearts: number
+          session_date: string
           started_at: string
           status: Database["public"]["Enums"]["quiz_session_status"]
           total_question_count: number
@@ -418,11 +458,17 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          all_answered_at?: string | null
+          category_id: number
           completed_at?: string | null
           correct_count?: number
           created_at?: string
+          earned_coins?: number
           earned_exp?: number
+          hearts_remaining?: number
           id?: number
+          max_hearts?: number
+          session_date?: string
           started_at?: string
           status?: Database["public"]["Enums"]["quiz_session_status"]
           total_question_count?: number
@@ -430,72 +476,144 @@ export type Database = {
           user_id: string
         }
         Update: {
+          all_answered_at?: string | null
+          category_id?: number
           completed_at?: string | null
           correct_count?: number
           created_at?: string
+          earned_coins?: number
           earned_exp?: number
+          hearts_remaining?: number
           id?: number
+          max_hearts?: number
+          session_date?: string
           started_at?: string
           status?: Database["public"]["Enums"]["quiz_session_status"]
           total_question_count?: number
           updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      user_question_answers: {
-        Row: {
-          answered_at: string
-          earned_exp: number
-          id: number
-          is_correct: boolean
-          question_id: number
-          quiz_session_id: number
-          quiz_session_question_id: number | null
-          selected_choice_id: number
-          user_id: string
-        }
-        Insert: {
-          answered_at?: string
-          earned_exp?: number
-          id?: number
-          is_correct: boolean
-          question_id: number
-          quiz_session_id: number
-          quiz_session_question_id?: number | null
-          selected_choice_id: number
-          user_id: string
-        }
-        Update: {
-          answered_at?: string
-          earned_exp?: number
-          id?: number
-          is_correct?: boolean
-          question_id?: number
-          quiz_session_id?: number
-          quiz_session_question_id?: number | null
-          selected_choice_id?: number
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "user_question_answers_question_id_fkey"
-            columns: ["question_id"]
+            foreignKeyName: "quiz_sessions_category_id_fkey"
+            columns: ["category_id"]
             isOneToOne: false
-            referencedRelation: "questions"
+            referencedRelation: "question_categories"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "user_question_answers_quiz_session_id_fkey"
-            columns: ["quiz_session_id"]
+            foreignKeyName: "quiz_sessions_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "quiz_sessions"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
+        ]
+      }
+      shop_items: {
+        Row: {
+          asset_key: string
+          category_id: number
+          created_at: string
+          id: number
+          is_active: boolean
+          name: string
+          price: number
+          updated_at: string
+        }
+        Insert: {
+          asset_key: string
+          category_id: number
+          created_at?: string
+          id?: number
+          is_active?: boolean
+          name: string
+          price: number
+          updated_at?: string
+        }
+        Update: {
+          asset_key?: string
+          category_id?: number
+          created_at?: string
+          id?: number
+          is_active?: boolean
+          name?: string
+          price?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shop_items_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "item_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_items: {
+        Row: {
+          id: number
+          item_id: number
+          purchased_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: number
+          item_id: number
+          purchased_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: number
+          item_id?: number
+          purchased_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_items_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "shop_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_items_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_question_answers: {
+        Row: {
+          answered_at: string
+          id: number
+          is_correct: boolean
+          quiz_session_question_id: number
+          selected_choice_id: number
+        }
+        Insert: {
+          answered_at?: string
+          id?: number
+          is_correct: boolean
+          quiz_session_question_id: number
+          selected_choice_id: number
+        }
+        Update: {
+          answered_at?: string
+          id?: number
+          is_correct?: boolean
+          quiz_session_question_id?: number
+          selected_choice_id?: number
+        }
+        Relationships: [
           {
             foreignKeyName: "user_question_answers_quiz_session_question_id_fkey"
             columns: ["quiz_session_question_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "quiz_session_questions"
             referencedColumns: ["id"]
           },
@@ -512,8 +630,7 @@ export type Database = {
         Row: {
           created_at: string
           current_streak: number
-          id: number
-          last_answered_date: string | null
+          last_completed_date: string | null
           longest_streak: number
           updated_at: string
           user_id: string
@@ -521,8 +638,7 @@ export type Database = {
         Insert: {
           created_at?: string
           current_streak?: number
-          id?: number
-          last_answered_date?: string | null
+          last_completed_date?: string | null
           longest_streak?: number
           updated_at?: string
           user_id: string
@@ -530,26 +646,61 @@ export type Database = {
         Update: {
           created_at?: string
           current_streak?: number
-          id?: number
-          last_answered_date?: string | null
+          last_completed_date?: string | null
           longest_streak?: number
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_streaks_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      is_admin: { Args: never; Returns: boolean }
+      complete_quiz_session: { Args: { p_session_id: number }; Returns: Json }
+      equip_character_item: {
+        Args: {
+          p_slot: Database["public"]["Enums"]["equipment_slot"]
+          p_user_item_id: number
+        }
+        Returns: Json
+      }
+      get_quiz_session: { Args: { p_session_id: number }; Returns: Json }
+      initialize_user: { Args: { p_nickname: string }; Returns: Json }
+      purchase_shop_item: { Args: { p_item_id: number }; Returns: Json }
+      start_today_quiz: { Args: { p_category_id: number }; Returns: Json }
+      submit_quiz_answer: {
+        Args: {
+          p_selected_choice_id: number
+          p_session_id: number
+          p_session_question_id: number
+        }
+        Returns: Json
+      }
+      unequip_character_item: {
+        Args: { p_slot: Database["public"]["Enums"]["equipment_slot"] }
+        Returns: Json
+      }
     }
     Enums: {
-      admin_role: "owner" | "manager"
       character_growth_stage: "egg" | "baby" | "child" | "teen" | "adult"
+      equipment_slot: "pattern" | "hat" | "glasses" | "nest"
+      item_target_type: "egg" | "pet"
       question_status: "draft" | "published" | "archived"
-      quiz_session_status: "in_progress" | "completed" | "abandoned"
+      quiz_session_status:
+        | "in_progress"
+        | "ready_to_complete"
+        | "completed"
+        | "abandoned"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -677,10 +828,16 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      admin_role: ["owner", "manager"],
       character_growth_stage: ["egg", "baby", "child", "teen", "adult"],
+      equipment_slot: ["pattern", "hat", "glasses", "nest"],
+      item_target_type: ["egg", "pet"],
       question_status: ["draft", "published", "archived"],
-      quiz_session_status: ["in_progress", "completed", "abandoned"],
+      quiz_session_status: [
+        "in_progress",
+        "ready_to_complete",
+        "completed",
+        "abandoned",
+      ],
     },
   },
 } as const
