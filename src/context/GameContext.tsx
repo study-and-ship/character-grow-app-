@@ -26,7 +26,7 @@ import {
   ymdKey,
 } from "@/lib/game";
 
-type OverlayType = "calendar" | "hatch" | "levelup" | null;
+type OverlayType = "calendar" | "hatch" | "levelup" | "customTopic" | null;
 type ShopTab = "hat" | "glasses";
 type EggTab = "pattern" | "hat" | "nest";
 
@@ -173,6 +173,7 @@ interface GameContextValue extends GameState {
   buy(key: string): void;
   equip(key: string): void;
   openCalendar(focus?: YMD): void;
+  openCustomTopic(): void;
   moveCalendar(delta: number): void;
   pickRecordDate(date: YMD): void;
   openTodayRecord(): void;
@@ -355,6 +356,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         };
       });
 
+    const openCustomTopic = () =>
+      patch((s) => ({ ...s, overlay: { type: "customTopic", reward: 0 } }));
+
     const moveCalendar = (delta: number) =>
       patch((s) => {
         let { y, m } = s.calView;
@@ -399,6 +403,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       buy,
       equip,
       openCalendar,
+      openCustomTopic,
       moveCalendar,
       pickRecordDate,
       openTodayRecord,

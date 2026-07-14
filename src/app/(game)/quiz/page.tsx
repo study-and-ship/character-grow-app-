@@ -11,7 +11,7 @@ export default function QuizPage() {
   const router = useRouter();
   const g = useGame();
   const q = QUESTIONS[g.qi];
-  const topic = TOPICS.find((t) => t.k === g.topic) ?? TOPICS[0];
+  const topicName = TOPICS.find((t) => t.k === g.topic)?.n ?? g.topic;
   const petState = g.answered ? (g.lastOk ? "correct" : "angry") : "idle";
   const isLast = g.qi >= QUESTIONS.length - 1 || g.hearts <= 0;
 
@@ -38,7 +38,7 @@ export default function QuizPage() {
       </div>
 
       <div className={styles.topicRow}>
-        <span className={styles.pill}>{topic.n} 학습 중</span>
+        <span className={styles.pill}>{topicName} 학습 중</span>
       </div>
 
       <div className={styles.qcard}>{q.q}</div>

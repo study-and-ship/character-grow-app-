@@ -9,13 +9,13 @@ import styles from "./page.module.scss";
 export default function TopicPage() {
   const router = useRouter();
   const g = useGame();
-  const [custom, setCustom] = useState("");
 
-  const customTopic = custom.trim();
-  const hasCustom = customTopic.length > 0;
+  const [selected, setSelected] = useState(() =>
+    TOPICS.some((t) => t.k === g.topic) ? g.topic : TOPICS[0].k,
+  );
 
   const start = () => {
-    if (hasCustom) g.setTopic(customTopic);
+    g.setTopic(selected);
     g.startQuiz();
     router.push("/quiz");
   };
@@ -29,29 +29,19 @@ export default function TopicPage() {
       </div>
       <p className={styles.sub}>풀고 싶은 주제를 골라보세요</p>
 
-      <div className={styles.optList}>
+      <div className={styles.tags}>
         {TOPICS.map((t) => (
           <button
             key={t.k}
-            className={`${styles.opt} ${!hasCustom && g.topic === t.k ? styles.sel : ""}`}
-            onClick={() => { setCustom(""); g.setTopic(t.k); }}
+            className={`${styles.tag} ${selected === t.k ? styles.tagOn : ""}`}
+            onClick={() => setSelected(t.k)}
           >
-            <span>{t.n}</span>
+            {t.n}
           </button>
         ))}
-      </div>
-
-      <div className={styles.customWrap}>
-        <p className={styles.customLabel}>직접 주제 만들기</p>
-        <input
-          className={styles.customInput}
-          type="text"
-          value={custom}
-          onChange={(e) => setCustom(e.target.value)}
-          onKeyDown={(e) => { if (e.key === "Enter") start(); }}
-          placeholder="예: 한국사, 영어 회화..."
-          maxLength={20}
-        />
+        <button className={`${styles.tag} ${styles.tagAdd}`} onClick={g.openCustomTopic}>
+          + 새 주제 만들기
+        </button>
       </div>
 
       <div className={styles.grow} />

@@ -1,0 +1,185 @@
+@use "mixins" as m;
+
+.topbar { @include m.topbar; }
+.iconbtn { @include m.iconbtn; }
+.heading { font-size: 20px; }
+.metricTag {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  background: #f3ead9;
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+
+/* 1위 스포트라이트 (이 화면의 시그니처) */
+.champion {
+  position: relative;
+  margin-top: 12px;
+  padding: 16px 16px 14px;
+  text-align: center;
+  background: linear-gradient(165deg, #fff7de 0%, #ffe6a0 100%);
+  border: 2px solid var(--sunny);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 0 var(--sunny-deep);
+}
+.champHead {
+  position: relative;
+  width: 92px;
+  margin: 0 auto;
+}
+.crown {
+  position: absolute;
+  left: 34px; /* 펫이 그리드 중앙보다 왼쪽에 그려져 있어 머리 중심(약 12번째 칸)에 맞춤 */
+  transform: translateX(-50%);
+  z-index: 1;
+  line-height: 0;
+}
+.crownBunny { top: -11px; }
+.crownCat { top: -5px; }
+.crownHamster { top: -8px; }
+.champPet {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 66px;
+  overflow: visible;
+}
+.champName {
+  margin-top: 6px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.champRank {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--sunny-deep);
+  background: #fff;
+  border: 2px solid var(--sunny);
+  border-radius: 999px;
+  padding: 1px 11px;
+}
+.champMeta {
+  margin-top: 3px;
+  font-size: 16px;
+  color: #a1832f;
+}
+.champScore {
+  margin-top: 8px;
+  font-size: 17px;
+  color: var(--ink-soft);
+
+  b {
+    font-size: 30px;
+    color: var(--ink);
+    margin-right: 2px;
+  }
+}
+
+/* 2~5위 + 내 순위 행 */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  padding: 9px 14px;
+}
+.meRow {
+  border-color: var(--sunny);
+  background: #fffaf0;
+}
+.badge {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 17px;
+  background: #f3ead9;
+  color: var(--ink-soft);
+}
+.medal1 { background: var(--sunny); color: #5b4a12; }
+.medal2 { background: #ccd6e6; color: #45506b; }
+.medal3 { background: #e7b98a; color: #6b4726; }
+.avatar {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+.rowBody {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+.rowName {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.rowMeta {
+  margin-top: 1px;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+.rowScore {
+  flex: 0 0 auto;
+  font-size: 15px;
+  color: var(--ink-soft);
+
+  b {
+    font-size: 22px;
+    color: var(--ink);
+    margin-right: 1px;
+  }
+}
+
+.youBadge {
+  font-size: 12px;
+  font-weight: 700;
+  color: #5b4a12;
+  background: var(--sunny);
+  border-radius: 999px;
+  padding: 1px 7px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 2px 0;
+  color: var(--ink-soft);
+  font-size: 15px;
+  font-weight: 700;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: var(--line);
+  }
+}
+
+.grow { flex: 1; min-height: 12px; }

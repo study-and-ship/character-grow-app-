@@ -6,8 +6,29 @@ export const MOOD_MSG: Record<Mood, string> = {"idle":"오늘도 열심히 해�
 /** 펫 이름 */
 export const PET_NAME: Record<PetKey, string> = {"bunny":"토끼","cat":"고양이","hamster":"햄스터"} as Record<PetKey, string>;
 
-/** 퀴즈 주제 */
-export const TOPICS: Topic[] = [{"k":"web","n":"웹 기초","ico":""},{"k":"js","n":"자바스크립트","ico":""},{"k":"cs","n":"컴퓨터 상식","ico":""},{"k":"english","n":"영어 단어","ico":""}];
+/** 퀴즈 주제 (프리셋 카테고리 — 실제로는 question_categories에서 내려옴) */
+export const TOPICS: Topic[] = [
+  { k: "web", n: "웹 기초", ico: "" },
+  { k: "js", n: "자바스크립트", ico: "" },
+  { k: "ts", n: "타입스크립트", ico: "" },
+  { k: "react", n: "리액트", ico: "" },
+  { k: "algorithm", n: "알고리즘", ico: "" },
+  { k: "datastructure", n: "자료구조", ico: "" },
+  { k: "network", n: "네트워크", ico: "" },
+  { k: "database", n: "데이터베이스", ico: "" },
+  { k: "os", n: "운영체제", ico: "" },
+  { k: "git", n: "깃 & 깃허브", ico: "" },
+  { k: "python", n: "파이썬", ico: "" },
+  { k: "cs", n: "컴퓨터 상식", ico: "" },
+  { k: "security", n: "정보보안", ico: "" },
+  { k: "english", n: "영어 단어", ico: "" },
+  { k: "history", n: "한국사", ico: "" },
+  { k: "worldhistory", n: "세계사", ico: "" },
+  { k: "economy", n: "경제 상식", ico: "" },
+  { k: "science", n: "과학 상식", ico: "" },
+  { k: "math", n: "수학 퀴즈", ico: "" },
+  { k: "proverb", n: "속담·사자성어", ico: "" },
+];
 
 /** 문제 (가데이터) */
 export const QUESTIONS: Question[] = [{"q":"다음 중 HTML의 의미로 가장 알맞은 것은?","o":["Hyper Text Markup Language","High Tech Modern Language","Home Tool Markup Language","Hyperlink Text Makeup"],"a":0,"e":"HTML은 Hyper Text Markup Language의 약자로, 웹페이지의 구조(뼈대)를 만드는 마크업 언어예요."},{"q":"웹페이지의 색상과 배치 등 스타일을 담당하는 언어는?","o":["HTML","CSS","SQL","JSON"],"a":1,"e":"CSS(Cascading Style Sheets)는 색상·글꼴·배치 등 웹페이지의 '꾸미기'를 담당해요."},{"q":"자바스크립트에서 변수를 선언하는 키워드가 아닌 것은?","o":["let","const","var","int"],"a":3,"e":"let, const, var는 변수 선언 키워드예요. int는 자바스크립트에 없는 키워드랍니다."},{"q":"HTML에서 가장 큰 제목을 나타내는 태그는?","o":["<h1>","<p>","<title>","<big>"],"a":0,"e":"<h1>이 가장 큰 제목이고, 숫자가 커질수록(h2~h6) 제목 글씨가 작아져요."},{"q":"다른 페이지로 이동하는 링크를 만들 때 쓰는 태그는?","o":["<img>","<a>","<div>","<link>"],"a":1,"e":"<a> 태그는 href 속성을 이용해 다른 페이지나 사이트로 이동하는 링크를 만들어요."}];

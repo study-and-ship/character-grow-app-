@@ -146,6 +146,48 @@
   }
 }
 
+/* ---- 새 주제 만들기 ---- */
+.topicInput {
+  width: 100%;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-top: 10px;
+  outline: none;
+  text-align: center;
+  transition: border-color 0.12s;
+
+  &::placeholder { color: var(--ink-soft); font-weight: 600; }
+  &:focus { border-color: var(--sunny); }
+}
+.genWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 0 6px;
+}
+.genSpark {
+  line-height: 0;
+  animation: spin 1.4s linear infinite;
+}
+.dots::after {
+  content: "";
+  animation: dots 1.2s steps(4, end) infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes dots {
+  0% { content: ""; }
+  25% { content: "."; }
+  50% { content: ".."; }
+  75% { content: "..."; }
+}
+
 /* ---- 토스트 ---- */
 .toast {
   position: absolute;

@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useGame } from "@/context/GameContext";
 import { PET_NAME } from "@/lib/data";
+import { requestCustomQuiz } from "@/lib/ai-topic";
 import { dateKey } from "@/lib/game";
 import Icon from "@/components/pixel/Icon";
 import EggSprite from "@/components/pixel/EggSprite";
@@ -136,12 +137,69 @@ function LevelUpModal() {
   );
 }
 
+function CustomTopicModal() {
+  const g = useGame();
+  const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [text, setText] = useState("");
+  const [generating, setGenerating] = useState(false);
+
+  useEffect(() => { inputRef.current?.focus(); }, []);
+
+  const topic = text.trim();
+
+  const make = async () => {
+    if (!topic || generating) return;
+    setGenerating(true);
+    await requestCustomQuiz(topic);
+    g.setTopic(topic);
+    g.startQuiz();
+    g.closeOverlay();
+    router.push("/quiz");
+  };
+
+  return (
+    <div className={styles.modal} onClick={generating ? undefined : g.closeOverlay}>
+      <div className={styles.box} onClick={(e) => e.stopPropagation()}>
+        {generating ? (
+          <div className={styles.genWrap}>
+            <span className={styles.genSpark}><Icon name="star" size={28} /></span>
+            <h2 className={styles.title} style={{ fontSize: 22 }}>문제 만드는 중</h2>
+            <p className={styles.sub}>
+              AI가 &lsquo;{topic}&rsquo; 문제를<br />만들고 있어요<span className={styles.dots} />
+            </p>
+          </div>
+        ) : (
+          <>
+            <h2 className={styles.title} style={{ fontSize: 24 }}>새 주제 만들기</h2>
+            <p className={styles.sub}>어떤 주제로 풀어볼까요?</p>
+            <input
+              ref={inputRef}
+              className={styles.topicInput}
+              type="text"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter") make(); }}
+              placeholder="예: 한국사, 영어 회화, K-POP…"
+              maxLength={20}
+            />
+            <p className={styles.label} style={{ marginTop: 10 }}>입력한 주제로 AI가 5문제를 만들어드려요</p>
+            <button className={styles.btn} onClick={make} disabled={!topic}>만들기</button>
+            <button className={`${styles.minibtn} ${styles.sec}`} onClick={g.closeOverlay}>닫기</button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function Overlays() {
   const { overlay } = useGame();
   switch (overlay.type) {
     case "calendar": return <CalendarModal />;
     case "hatch": return <HatchModal />;
     case "levelup": return <LevelUpModal />;
+    case "customTopic": return <CustomTopicModal />;
     default: return null;
   }
 }

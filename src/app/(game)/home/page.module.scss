@@ -30,10 +30,6 @@
   min-height: 0;
 }
 .bubble { @include m.bubble; }
-.hatchHint {
-  @include m.label;
-  text-align: center;
-}
 
 .seg {
   display: flex;
@@ -60,7 +56,10 @@
   color: var(--ink) !important;
 }
 
-.stats { @include m.stats; }
+.stats {
+  @include m.stats;
+  margin-bottom: 12px;
+}
 .stat {
   @include m.stat;
   font-family: inherit;
@@ -69,7 +68,6 @@
 .ico { font-size: 22px; line-height: 0; }
 .big { font-size: 24px; font-weight: 700; line-height: 1; }
 
-.grow { flex: 0.4; min-height: 8px; }
 .quizBtn {
   @include m.btn;
   margin-bottom: 78px;
