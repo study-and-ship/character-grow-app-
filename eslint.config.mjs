@@ -12,7 +12,7 @@ const config = [
       "@next/next/no-page-custom-font": "off",
     },
   },
-  { ignores: [".next/**", "node_modules/**"] },
+  { ignores: [".next/**", ".next-*/**", "node_modules/**", "supabase/.temp/**"] },
 ];
 
 export default config;

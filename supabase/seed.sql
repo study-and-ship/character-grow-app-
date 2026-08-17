@@ -442,6 +442,121 @@ set
   sort_order = excluded.sort_order;
 
 -- =============================================================================
+-- 컴퓨터 상식 추가 문제 (2026-08-18)
+-- =============================================================================
+
+insert into public.questions (
+  id,
+  category_id,
+  supersedes_question_id,
+  version,
+  title,
+  question_text,
+  explanation,
+  difficulty,
+  status
+)
+values
+  (
+    21,
+    3,
+    null,
+    1,
+    '바이트 크기',
+    '1바이트(Byte)는 몇 비트(bit)로 이루어져 있을까요?',
+    '1바이트는 8비트예요. 비트는 0 또는 1을 담는 가장 작은 정보 단위랍니다.',
+    1,
+    'published'
+  ),
+  (
+    22,
+    3,
+    null,
+    1,
+    'IP 주소',
+    '인터넷에 연결된 컴퓨터를 구분하기 위해 부여하는 고유 번호는?',
+    'IP 주소는 네트워크에서 각 기기를 식별하는 고유 번호예요. 택배를 보내려면 집 주소가 필요한 것과 같아요.',
+    1,
+    'published'
+  ),
+  (
+    23,
+    3,
+    null,
+    1,
+    '악성코드 총칭',
+    '컴퓨터에 피해를 주기 위해 만들어진 프로그램을 통틀어 부르는 말은?',
+    '멀웨어(악성코드)는 바이러스, 랜섬웨어, 스파이웨어처럼 해를 끼치는 프로그램을 통틀어 부르는 말이에요.',
+    2,
+    'published'
+  ),
+  (
+    24,
+    3,
+    null,
+    1,
+    '용량 단위 순서',
+    '저장 용량 단위를 작은 것부터 큰 순서로 바르게 나열한 것은?',
+    'KB(킬로바이트) → MB(메가바이트) → GB(기가바이트) 순서로 커져요. 단계마다 약 1,000배씩 커진답니다.',
+    2,
+    'published'
+  ),
+  (
+    25,
+    3,
+    null,
+    1,
+    'Wi-Fi',
+    'Wi-Fi에 대한 설명으로 가장 알맞은 것은?',
+    'Wi-Fi는 선 없이 인터넷에 연결할 수 있게 해주는 무선 네트워크 기술이에요.',
+    1,
+    'published'
+  )
+on conflict (id) do update
+set
+  category_id = excluded.category_id,
+  title = excluded.title,
+  question_text = excluded.question_text,
+  explanation = excluded.explanation,
+  difficulty = excluded.difficulty,
+  status = excluded.status;
+
+insert into public.question_choices (
+  id,
+  question_id,
+  choice_text,
+  sort_order,
+  is_correct
+)
+values
+  (81, 21, '4비트', 1, false),
+  (82, 21, '8비트', 2, true),
+  (83, 21, '16비트', 3, false),
+  (84, 21, '32비트', 4, false),
+  (85, 22, 'IP 주소', 1, true),
+  (86, 22, '바코드', 2, false),
+  (87, 22, '시리얼 번호', 3, false),
+  (88, 22, 'QR 코드', 4, false),
+  (89, 23, '프리웨어', 1, false),
+  (90, 23, '펌웨어', 2, false),
+  (91, 23, '멀웨어', 3, true),
+  (92, 23, '미들웨어', 4, false),
+  (93, 24, 'GB → MB → KB', 1, false),
+  (94, 24, 'MB → KB → GB', 2, false),
+  (95, 24, 'KB → GB → MB', 3, false),
+  (96, 24, 'KB → MB → GB', 4, true),
+  (97, 25, '컴퓨터를 빠르게 하는 부품이다', 1, false),
+  (98, 25, '무선으로 인터넷에 연결하는 기술이다', 2, true),
+  (99, 25, '문서를 편집하는 프로그램이다', 3, false),
+  (100, 25, '사진을 저장하는 파일 형식이다', 4, false)
+on conflict (id) do update
+set
+  question_id = excluded.question_id,
+  choice_text = excluded.choice_text,
+  sort_order = excluded.sort_order,
+  is_correct = excluded.is_correct;
+
+-- =============================================================================
 -- 상점 카테고리
 -- =============================================================================
 

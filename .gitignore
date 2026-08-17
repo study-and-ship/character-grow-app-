@@ -15,6 +15,8 @@
 
 # next.js
 /.next/
+/.next-integration/
+/.next-build/
 /out/
 
 # production
@@ -45,3 +47,7 @@ supabase/.branches/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# .claude는 개인 설정이라 무시하되, 팀 공유용 스킬만 커밋한다
+.claude/*
+!.claude/skills/

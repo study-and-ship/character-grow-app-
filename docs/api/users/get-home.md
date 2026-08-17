@@ -35,7 +35,7 @@ Body와 Query Parameter가 없습니다.
       },
       "level": 2,
       "exp": 30,
-      "required_exp": 140,
+      "required_exp": 80,
       "total_exp": 150,
       "growth_stage": "baby",
       "equipment": {
@@ -85,8 +85,8 @@ Body와 Query Parameter가 없습니다.
 3. 캐릭터·펫 종류·현재 장착을 조회합니다.
 4. streak를 조회합니다.
 5. 한국 날짜 기준 오늘 세션을 조회합니다.
-6. 진행 중 세션은 답안 수를 실시간 집계합니다.
-7. 완료 세션은 `quiz_sessions`의 확정 결과를 사용합니다.
+6. `answered_count`는 세션 상태와 무관하게 실제 제출된 답안 수를 집계합니다.
+   하트 소진으로 조기 완료된 세션은 `completed`여도 `total_question_count`보다 작을 수 있습니다.
 
 서버 내부 조회는 병렬 실행하거나 전용 SQL/RPC로 묶을 수 있습니다.
 

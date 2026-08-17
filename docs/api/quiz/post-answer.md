@@ -64,6 +64,12 @@
 }
 ```
 
+### 하트 0 조기 완료
+
+오답으로 `hearts_remaining`이 0이 되면 남은 문제와 관계없이 `status`가 `ready_to_complete`로 바뀝니다.
+이후 미제출 문제에 답안을 보내면 `QUIZ_SESSION_NOT_IN_PROGRESS`(409)가 반환되므로,
+프론트엔드는 `can_complete`가 `true`가 되는 즉시 결과 화면으로 이동합니다.
+
 ### 오류 응답
 
 | HTTP | 코드 | 조건 |
@@ -113,7 +119,7 @@ RPC의 JSON 반환값을 `{ "data": rpcData }`로 감싸서 응답합니다.
 7. `user_question_answers`에 선택과 당시 정답 여부를 저장합니다.
 8. 오답이면 `hearts_remaining`을 1 감소시키되 0 미만으로 만들지 않습니다.
 9. 답안 수와 정답 수를 다시 집계합니다.
-10. 모든 문제가 제출됐다면 `ready_to_complete`와 `all_answered_at`을 저장합니다.
+10. 모든 문제가 제출됐거나 `hearts_remaining`이 0이면 `ready_to_complete`와 `all_answered_at`을 저장합니다.
 
 ### 멱등성
 

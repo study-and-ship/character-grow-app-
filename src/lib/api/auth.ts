@@ -1,6 +1,7 @@
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import type { Database } from "@/lib/supabase/database.types";
 import { createClient } from "@/lib/supabase/server";
+import { fail } from "./response";
 
 export type RouteSupabase = SupabaseClient<Database>;
 
@@ -25,7 +26,6 @@ export async function requireUser(): Promise<
   } = await supabase.auth.getUser();
 
   if (error || !user) {
-    const { fail } = await import("./response");
     return {
       ok: false,
       response: fail("UNAUTHORIZED", "로그인이 필요합니다."),

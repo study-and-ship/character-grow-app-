@@ -2,6 +2,7 @@
 .branches
 .temp
 legacy-data.sql
+snippets/
 
 # dotenvx
 .env.keys

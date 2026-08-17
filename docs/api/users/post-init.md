@@ -40,7 +40,8 @@
       "level": 1,
       "exp": 0,
       "total_exp": 0,
-      "growth_stage": "egg"
+      "growth_stage": "egg",
+      "hatched_at": null
     },
     "streak": {
       "current_streak": 0,

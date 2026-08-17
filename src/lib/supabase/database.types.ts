@@ -675,6 +675,7 @@ export type Database = {
         Returns: Json
       }
       get_quiz_session: { Args: { p_session_id: number }; Returns: Json }
+      get_rankings: { Args: { p_limit?: number }; Returns: Json }
       initialize_user: { Args: { p_nickname: string }; Returns: Json }
       purchase_shop_item: { Args: { p_item_id: number }; Returns: Json }
       start_today_quiz: { Args: { p_category_id: number }; Returns: Json }

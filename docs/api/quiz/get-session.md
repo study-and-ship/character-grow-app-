@@ -45,7 +45,9 @@
         "session_question_id": 1001,
         "sort_order": 1,
         "question_id": 20,
+        "title": "HTML 기본",
         "question_text": "HTML의 의미는?",
+        "difficulty": 1,
         "choices": [
           {
             "id": 201,
@@ -57,19 +59,32 @@
           "selected_choice_id": 201,
           "is_correct": true,
           "correct_choice_id": 201,
+          "correct_choice_text": "Hyper Text Markup Language",
           "explanation": "HTML의 전체 이름입니다.",
           "answered_at": "2026-07-05T01:10:00.000Z"
         }
       }
     ],
+    "started_at": "2026-07-05T01:00:00.000Z",
+    "all_answered_at": null,
     "completed_at": null
   }
 }
 ```
 
+### 세션 상태 수명주기
+
+| `status` | 의미 | 프론트 동작 |
+| --- | --- | --- |
+| `in_progress` | 풀이 중 | 진행 위치 복원 후 퀴즈 계속 |
+| `ready_to_complete` | 전량 제출 **또는 하트 0 조기 완료** 로 결과 확인 대기 | 결과 화면으로 이동해 완료 API 호출 |
+| `completed` | 보상까지 확정됨 | 결과 요약 표시. 조기 완료였다면 `answered_count < total_question_count`일 수 있음 |
+| `abandoned` | 지난 날짜에 풀다 만 세션 (새 세션 시작 시 자동 폐기) | 진입 불가 처리. 답안 제출·완료 요청은 409 |
+
 ### 진행 위치 복원
 
-프론트는 `sort_order` 순서로 정렬한 뒤 `answer = null`인 첫 문제를 현재 문제로 사용합니다. 모든 답안이 있으면 결과 화면으로 이동합니다.
+프론트는 `sort_order` 순서로 정렬한 뒤 `answer = null`인 첫 문제를 현재 문제로 사용합니다.
+모든 답안이 있거나 `status`가 `ready_to_complete`(하트 0 조기 완료 포함)면 결과 화면으로 이동합니다.
 
 ### 정답 노출 규칙
 

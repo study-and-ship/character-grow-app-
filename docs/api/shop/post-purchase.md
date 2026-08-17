@@ -2,6 +2,9 @@
 
 코인을 차감하고 상점 아이템을 사용자 보유 아이템으로 지급합니다.
 
+> 구매는 **장착을 포함하지 않습니다.** "구매 즉시 장착" UX가 필요하면 구매 성공 후
+> 응답의 `user_item.id`로 [`PUT /api/users/me/character/equipment/:slot`](../inventory/put-equipment.md)을 이어서 호출합니다.
+
 ## 프론트엔드 API 명세
 
 ### 사용 화면
@@ -47,6 +50,7 @@ Body가 없습니다.
 | 400 | `VALIDATION` | 아이템 ID 형식 오류 |
 | 401 | `UNAUTHORIZED` | 인증 세션이 없음 |
 | 404 | `ITEM_NOT_FOUND` | 상품이 없거나 판매 중이 아님 |
+| 409 | `USER_NOT_INITIALIZED` | 프로필 또는 캐릭터가 없음 |
 | 409 | `ITEM_ALREADY_OWNED` | 이미 보유한 아이템 |
 | 409 | `ITEM_TARGET_MISMATCH` | 현재 알/펫 상태에서 사용할 수 없음 |
 | 409 | `INSUFFICIENT_COINS` | 코인이 부족함 |

@@ -2,6 +2,10 @@
 
 사용자가 보유한 전체 아이템과 캐릭터의 현재 슬롯별 장착 상태를 반환합니다.
 
+> 알이 부화하면 장착 중이던 아이템이 **전부 자동 해제**됩니다(보유 목록에는 유지).
+> 부화 직후에는 `equipment`의 모든 슬롯이 `null`일 수 있습니다.
+> 또한 캐릭터의 현재 대상(`character.target_type`)과 다른 아이템은 장착할 수 없습니다.
+
 ## 프론트엔드 API 명세
 
 ### 사용 화면
@@ -14,11 +18,16 @@
 
 ### Query Parameter
 
-선택적으로 필터를 지원할 수 있습니다.
+필터는 선택 사항입니다. 생략하면 전체 보유 아이템을 반환합니다.
 
 ```http
 GET /api/users/me/inventory?target_type=pet&slot=hat
 ```
+
+| 이름 | 필수 | 값 |
+| --- | ---: | --- |
+| `target_type` | 아니요 | `egg`, `pet` |
+| `slot` | 아니요 | `pattern`, `hat`, `glasses`, `nest` |
 
 ### 성공 응답
 

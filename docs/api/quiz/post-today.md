@@ -44,12 +44,17 @@
     "hearts_remaining": 3,
     "total_question_count": 5,
     "answered_count": 0,
+    "correct_count": 0,
+    "earned_exp": 0,
+    "earned_coins": 0,
     "questions": [
       {
         "session_question_id": 1001,
         "sort_order": 1,
         "question_id": 20,
+        "title": "HTML 기본",
         "question_text": "HTML의 의미는?",
+        "difficulty": 1,
         "choices": [
           {
             "id": 201,
@@ -59,7 +64,10 @@
         ],
         "answer": null
       }
-    ]
+    ],
+    "started_at": "2026-07-05T01:00:00.000Z",
+    "all_answered_at": null,
+    "completed_at": null
   }
 }
 ```
@@ -101,13 +109,15 @@ RPC의 JSON 반환값을 `{ "data": rpcData }`로 감싸서 응답합니다.
 
 1. 인증 사용자와 초기화 상태를 확인합니다.
 2. 서버에서 한국 기준 오늘 날짜를 계산합니다.
-3. `(user_id, session_date)` 세션을 조회합니다.
-4. 기존 세션이 있으면 요청 카테고리와 관계없이 기존 세션을 반환합니다.
-5. 세션이 없으면 카테고리 활성 여부를 확인합니다.
-6. 해당 카테고리의 `published` 문제 중 5개를 선택합니다.
-7. `quiz_sessions`를 생성합니다.
-8. 선택한 문제와 순서를 `quiz_session_questions`에 저장합니다.
-9. 문제와 보기를 반환합니다.
+3. 지난 날짜에 풀다 만(`in_progress`) 세션이 있으면 `abandoned`로 폐기합니다.
+   다 풀어둔(`ready_to_complete`) 과거 세션은 폐기하지 않으며 언제든 완료(보상)할 수 있습니다.
+4. `(user_id, session_date)` 세션을 조회합니다.
+5. 기존 세션이 있으면 요청 카테고리와 관계없이 기존 세션을 반환합니다.
+6. 세션이 없으면 카테고리 활성 여부를 확인합니다.
+7. 해당 카테고리의 `published` 문제 중 5개를 선택합니다.
+8. `quiz_sessions`를 생성합니다.
+9. 선택한 문제와 순서를 `quiz_session_questions`에 저장합니다.
+10. 문제와 보기를 반환합니다.
 
 ### 동시성·멱등성
 
