@@ -9,7 +9,7 @@ import {
   todayInSeoul,
 } from "@/lib/api/game";
 import { internalError, ok } from "@/lib/api/response";
-import type { HomeData } from "@/interface/api";
+import type { HomeData } from "@/types/api";
 
 export const dynamic = "force-dynamic";
 

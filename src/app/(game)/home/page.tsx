@@ -8,7 +8,6 @@ import { todayYMD } from "@/lib/game";
 import { myRank } from "@/lib/ranking";
 import Creature from "@/components/pixel/Creature";
 import Icon from "@/components/pixel/Icon";
-import BottomNav from "@/components/layout/BottomNav";
 import styles from "./page.module.scss";
 
 const MOODS: { key: Mood; label: string }[] = [
@@ -90,7 +89,6 @@ export default function HomePage() {
       </div>
 
       <button className={styles.quizBtn} onClick={() => router.push("/topic")}>오늘의 문제 풀기 ▶</button>
-      <BottomNav />
     </>
   );
 }

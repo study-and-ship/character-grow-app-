@@ -7,7 +7,6 @@ import { EGG_ACCS } from "@/lib/pixel/egg";
 import Icon from "@/components/pixel/Icon";
 import PetSprite from "@/components/pixel/PetSprite";
 import EggSprite from "@/components/pixel/EggSprite";
-import BottomNav from "@/components/layout/BottomNav";
 import styles from "./page.module.scss";
 
 const PET_CATS = [
@@ -156,7 +155,6 @@ export default function WardrobePage() {
       )}
 
       <div className={styles.grow} />
-      <BottomNav />
     </>
   );
 }

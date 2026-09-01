@@ -11,7 +11,7 @@ import {
   parseValue,
   searchParamsToObject,
 } from "@/lib/api/validation";
-import type { InventoryData } from "@/interface/api";
+import type { InventoryData } from "@/types/api";
 
 export const dynamic = "force-dynamic";
 

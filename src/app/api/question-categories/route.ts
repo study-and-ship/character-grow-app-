@@ -1,7 +1,7 @@
 import { requireUser } from "@/lib/api/auth";
 import { queryErrorResponse } from "@/lib/api/errors";
 import { ok } from "@/lib/api/response";
-import type { QuestionCategoryData } from "@/interface/api";
+import type { QuestionCategoryData } from "@/types/api";
 
 export const dynamic = "force-dynamic";
 

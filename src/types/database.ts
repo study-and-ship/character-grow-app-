@@ -10,7 +10,7 @@ import type {
  * database.types.ts 는 gen:types 로 자동 생성되므로 직접 수정하지 않는다.
  * 컴포넌트/훅에서는 이 파일의 별칭을 import 해서 쓴다.
  *
- *   import type { Character } from "@/interface/database";
+ *   import type { Character } from "@/types/database";
  */
 
 // --- Row 타입 (조회 결과) ---
