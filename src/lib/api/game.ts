@@ -2,7 +2,7 @@ import type {
   CharacterGrowthStage,
   EquipmentSlot,
   ItemTargetType,
-} from "@/interface/database";
+} from "@/types/database";
 
 export const EQUIPMENT_SLOTS: EquipmentSlot[] = [
   "pattern",

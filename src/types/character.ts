@@ -1,4 +1,4 @@
-import type { CharacterGrowthStage } from "@/interface/database";
+import type { CharacterGrowthStage } from "@/types/database";
 
 export type { CharacterGrowthStage };
 

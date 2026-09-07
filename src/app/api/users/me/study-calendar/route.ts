@@ -8,7 +8,7 @@ import {
   searchParamsToObject,
   yearMonthSchema,
 } from "@/lib/api/validation";
-import type { StudyCalendarData } from "@/interface/api";
+import type { StudyCalendarData } from "@/types/api";
 
 export const dynamic = "force-dynamic";
 

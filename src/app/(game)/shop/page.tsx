@@ -7,7 +7,6 @@ import { EGG_ACCS } from "@/lib/pixel/egg";
 import Icon from "@/components/pixel/Icon";
 import EggSprite from "@/components/pixel/EggSprite";
 import PetSprite from "@/components/pixel/PetSprite";
-import BottomNav from "@/components/layout/BottomNav";
 import styles from "./page.module.scss";
 
 const PET_TABS = [
@@ -111,7 +110,6 @@ function PetShop() {
         <span className={styles.label}>더 열심히 공부하면 코인을 모을 수 있어요! 정답마다 코인 20</span>
       </div>
       <div className={styles.grow} />
-      <BottomNav />
     </>
   );
 }
@@ -166,7 +164,6 @@ function EggShop() {
         <span className={styles.label}>펫 전용 아이템은 부화 후 오픈돼요</span>
       </div>
       <div className={styles.grow} />
-      <BottomNav />
     </>
   );
 }

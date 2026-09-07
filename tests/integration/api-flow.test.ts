@@ -21,7 +21,7 @@ import type {
   StudyRecordData,
   SubmitAnswerData,
   UserMeData,
-} from "@/interface/api";
+} from "@/types/api";
 import type { Database } from "@/lib/supabase/database.types";
 
 const root = path.resolve(__dirname, "../..");

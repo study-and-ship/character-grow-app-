@@ -11,7 +11,7 @@ import {
   parseValue,
   searchParamsToObject,
 } from "@/lib/api/validation";
-import type { StudyRecordData } from "@/interface/api";
+import type { StudyRecordData } from "@/types/api";
 
 export const dynamic = "force-dynamic";
 
