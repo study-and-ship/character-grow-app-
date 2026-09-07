@@ -1,6 +1,6 @@
 "use client";
 
-import type { Mood } from "@/types/game";
+import type { EggEquip, Mood, PetEquip, PetKey } from "@/types/game";
 import { useGame } from "@/context/GameContext";
 import PetSprite from "./PetSprite";
 import EggSprite from "./EggSprite";
@@ -11,11 +11,13 @@ interface CreatureProps {
   size: number;
   /** 부화 후 캐릭터 크기 (미지정 시 size) */
   petSize?: number;
+  serverState?: { hatched: boolean; pet: PetKey; equipped: PetEquip; eggEquip: EggEquip };
 }
 
 /** 부화 전이면 알, 부화 후면 캐릭터를 보여준다. */
-export default function Creature({ state, size, petSize }: CreatureProps) {
-  const { hatched, pet, equipped, eggEquip } = useGame();
+export default function Creature({ state, size, petSize, serverState }: CreatureProps) {
+  const game = useGame();
+  const { hatched, pet, equipped, eggEquip } = serverState ?? game;
 
   if (hatched) {
     return <PetSprite pet={pet} state={state} size={petSize ?? size} equipped={equipped} />;
