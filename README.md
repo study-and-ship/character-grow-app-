@@ -21,9 +21,10 @@ src/
   app/                 라우트 (App Router)
   lib/supabase/
     client.ts          브라우저용 Supabase 클라이언트 (publishable key)
+  features/            Route Handler API clients
 .env.example           환경변수 템플릿
 .env                   실제 환경변수 (git 제외)
-capacitor.config.ts    안드로이드 래핑 설정 (예정)
+capacitor.config.ts    Vercel URL 기반 내부 테스트 설정
 ```
 
 ## 시작하기
@@ -47,12 +48,4 @@ npm run dev                  # http://localhost:3000
 2. Environment Variables에 위 두 값 등록
 3. push 시 자동 배포
 
-## 안드로이드 (Capacitor)
-
-```bash
-# 정적 export 방식 사용 시 next.config 에 output: "export" 설정 후
-npm run build
-npx cap add android
-npx cap sync
-npx cap open android
-```
+상세한 Supabase/Vercel 절차는 [`docs/deployment.md`](docs/deployment.md), Android debug APK 절차는 [`docs/android-testing.md`](docs/android-testing.md)를 따른다. 현재 SSR 구조에서는 정적 export를 사용하지 않는다.

@@ -1,10 +1,10 @@
-import type { ApiResponse, PurchaseItemData, ShopItemsData } from "@/types/api";
+import type { PurchaseItemData, ShopItemsData } from "@/types/api";
+import { apiRequest } from "@/lib/api/client";
 
 export async function purchaseItem(itemId: number): Promise<PurchaseItemData> {
-  const response = await fetch(`/api/shop/items/${itemId}/purchase`, { method: "POST" });
-  const body = (await response.json()) as ApiResponse<PurchaseItemData>;
-  if (!response.ok || "error" in body) throw new Error("error" in body ? body.error.message : "구매에 실패했습니다.");
-  return body.data;
+  return apiRequest<PurchaseItemData>(`/api/shop/items/${itemId}/purchase`, { method: "POST" });
 }
+
+export async function getShopItems(): Promise<ShopItemsData> { return apiRequest<ShopItemsData>("/api/shop/items"); }
 
 export type { ShopItemsData };
