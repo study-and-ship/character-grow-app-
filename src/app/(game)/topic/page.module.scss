@@ -44,3 +44,25 @@
 
 .grow { flex: 1; min-height: 20px; }
 .startBtn { @include m.btn; }
+
+.requestSection {
+  margin-top: 16px;
+}
+
+.requestForm {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+
+  input, textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 12px;
+    color: var(--ink);
+    background: white;
+    font: inherit;
+    font-size: 16px;
+    border: 2px solid var(--line);
+    border-radius: 12px;
+  }
+}
