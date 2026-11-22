@@ -666,6 +666,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      submit_question_request: {
+        Args: { p_id: string; p_topic: string; p_details: string }
+        Returns: string
+      }
       complete_quiz_session: { Args: { p_session_id: number }; Returns: Json }
       equip_character_item: {
         Args: {
